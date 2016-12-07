@@ -4,8 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.sdsmdg.flingit.FLINGitGame;
+import com.sdsmdg.flingit.sprites.Body;
 
 /**
  * Created by rahul on 6/12/16.
@@ -13,15 +14,22 @@ import com.sdsmdg.flingit.FLINGitGame;
 
 public class PlayScreen implements Screen {
 
+    private final static String TAG = "com.sdsmdg.flingit.screens";
     private FLINGitGame game;
-    private Texture texture;
     private OrthographicCamera camera;
-
+    ShapeRenderer renderer;
+    Body body;
     public PlayScreen(FLINGitGame game) {
+        renderer = new ShapeRenderer();
+        renderer.setAutoShapeType(true);
         this.game = game;
-        texture = new Texture("badlogic.jpg");
         camera = new OrthographicCamera();
         camera.setToOrtho(false, game.dimensions.getScreenWidth(), game.dimensions.getScreenHeight());
+
+        body = new Body(game,camera, 100, 500);
+        Gdx.app.log(TAG, "Width : " + game.dimensions.getScreenWidth() + "\nHeight : " +
+            game.dimensions.getScreenHeight());
+        Gdx.input.setInputProcessor(body);
     }
 
     @Override
@@ -34,8 +42,13 @@ public class PlayScreen implements Screen {
         Gdx.gl.glClearColor(1,1,1,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         game.batch.setProjectionMatrix(camera.combined);
+        body.update(delta);
+
+        renderer.begin(ShapeRenderer.ShapeType.Filled);
+        body.render(renderer);
+        renderer.end();
         game.batch.begin();
-        game.batch.draw(texture, 0, 0);
+
         game.batch.end();
     }
 
