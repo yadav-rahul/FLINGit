@@ -60,7 +60,7 @@ public class PlayScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         if (isUpdateCamera) {
             if (camera.position.x - body.getPosition().x < (game.dimensions.getScreenWidth() / 5)) {
-                camera.position.x += delta * (game.dimensions.getScreenWidth() / 3);
+                camera.position.x += delta * (game.dimensions.getScreenWidth() );
             } else {
                 setUpdateCamera(false);
             }
@@ -74,7 +74,7 @@ public class PlayScreen implements Screen {
             }
         }
 
-        Gdx.app.log(TAG, "isUpdateBodyRadius : " + isUpdateBodyRadius);
+//        Gdx.app.log(TAG, "isUpdateBodyRadius : " + isUpdateBodyRadius);
         renderer.setProjectionMatrix(camera.combined);
 
         body.update(delta);

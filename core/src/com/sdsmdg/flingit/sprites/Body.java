@@ -57,7 +57,7 @@ public class Body extends InputAdapter {
 
     public void update(float delta) {
         if (isUpdate) {
-            delta = (((float) -game.dimensions.getScreenWidth()) / 50) * delta;
+            delta = (((float) -game.dimensions.getScreenWidth()) / 25) * delta;
             velocity.y += delta * acc.y;
 
             position.x += delta * velocity.x;
@@ -133,11 +133,10 @@ public class Body extends InputAdapter {
             flickDraggedVector = new Vector3(flickDragged.x - flickStart.x, flickDragged.y - flickStart.y, 0);
             flickDraggedVector.x = (float) (flickDraggedVector.x * 0.4);
             flickDraggedVector.y = (float) (flickDraggedVector.y * 0.5);
+
             //Change radius factor according to the length of the dragged Vector
             radiusFactor = 1.0f / (20 + flickDraggedVector.len() / 10);
             init();
-
-            // Gdx.app.log(TAG, "Length Dragged : " + flickDraggedVector.len());
         }
 
         return true;
