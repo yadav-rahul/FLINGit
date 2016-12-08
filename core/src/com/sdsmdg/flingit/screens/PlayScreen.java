@@ -20,6 +20,7 @@ public class PlayScreen implements Screen {
 
     private final static String TAG = "com.sdsmdg.flingit.screens";
     private FLINGitGame game;
+
     private OrthographicCamera camera;
     private ShapeRenderer renderer;
     private Body body;
@@ -28,6 +29,10 @@ public class PlayScreen implements Screen {
     private Array<Vector3> blockParams;
     private boolean isUpdateCamera = false;
     private boolean isUpdateBodyRadius = false;
+    private boolean isAttachCamera = false;
+    private float cameraDisplacement;
+    private int defaultLeftMarginX;
+    private int defaultLeftMarginY;
 
     public PlayScreen(FLINGitGame game) {
         renderer = new ShapeRenderer();
@@ -36,7 +41,12 @@ public class PlayScreen implements Screen {
         blocks = new Array<Block>();
         camera = new OrthographicCamera();
         camera.setToOrtho(false, game.dimensions.getScreenWidth(), game.dimensions.getScreenHeight());
-        body = new Body(game, this, camera, 200, 500);
+
+
+        defaultLeftMarginX = game.dimensions.getScreenWidth() / 7;
+        defaultLeftMarginY = game.dimensions.getScreenHeight() / 3;
+
+        body = new Body(game, this, camera, defaultLeftMarginX, defaultLeftMarginY);
         Gdx.app.log(TAG, "Width : " + game.dimensions.getScreenWidth() + "\nHeight : " +
                 game.dimensions.getScreenHeight());
         Gdx.input.setInputProcessor(body);
@@ -47,6 +57,7 @@ public class PlayScreen implements Screen {
             blocks.add(new Block((int) (blockParams.get(i).x), (int) (blockParams.get(i).y),
                     (int) (blockParams.get(i).z), game.dimensions.getScreenWidth()));
         }
+        camera.position.x = body.getPosition().x -  defaultLeftMarginX + camera.viewportWidth / 2;
     }
 
     @Override
@@ -59,8 +70,8 @@ public class PlayScreen implements Screen {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         if (isUpdateCamera) {
-            if (camera.position.x - body.getPosition().x < (game.dimensions.getScreenWidth() / 5)) {
-                camera.position.x += delta * (game.dimensions.getScreenWidth() );
+            if (camera.position.x - body.getPosition().x < camera.viewportWidth / 2 - defaultLeftMarginX) {
+                camera.position.x += delta * (game.dimensions.getScreenWidth());
             } else {
                 setUpdateCamera(false);
             }
@@ -74,7 +85,10 @@ public class PlayScreen implements Screen {
             }
         }
 
-//        Gdx.app.log(TAG, "isUpdateBodyRadius : " + isUpdateBodyRadius);
+        if (isAttachCamera) {
+            camera.position.x = body.getPosition().x + cameraDisplacement -  defaultLeftMarginX + camera.viewportWidth / 2;
+        }
+
         renderer.setProjectionMatrix(camera.combined);
 
         body.update(delta);
@@ -133,5 +147,10 @@ public class PlayScreen implements Screen {
 
     public void setUpdateBodyRadius(boolean updateBodyRadius) {
         isUpdateBodyRadius = updateBodyRadius;
+    }
+
+    public void setAttachCamera(boolean attachCamera, float displacement) {
+        cameraDisplacement = displacement;
+        isAttachCamera = attachCamera;
     }
 }

@@ -83,6 +83,7 @@ public class Body extends InputAdapter {
         if (position.x - radius < 0) {
             position.x = radius;
             velocity.x = 0;
+            game.setScreen(new PlayScreen(game));
         }
         if (position.x + radius > viewportWidth) {
 
@@ -92,6 +93,7 @@ public class Body extends InputAdapter {
             velocity.y = 0;
             velocity.x = 0;
             isUpdate = false;
+            game.setScreen(new PlayScreen(game));
         }
         if (position.y + radius > viewportHeight) {
             //TODO Do something when it goes above the certain height.
@@ -137,6 +139,7 @@ public class Body extends InputAdapter {
             //Change radius factor according to the length of the dragged Vector
             radiusFactor = 1.0f / (20 + flickDraggedVector.len() / 10);
             init();
+            playScreen.setAttachCamera(true, flickDraggedVector.x);
         }
 
         return true;
@@ -156,6 +159,7 @@ public class Body extends InputAdapter {
 
             isUpdate = true;
         }
+        playScreen.setAttachCamera(false, 0);
         playScreen.setUpdateBodyRadius(true);
         return true;
     }
