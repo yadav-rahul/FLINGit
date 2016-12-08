@@ -12,7 +12,7 @@ public class FLINGitGame extends Game {
 	public Dimensions dimensions;
 	@Override
 	public void create () {
-		dimensions = new Dimensions(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		dimensions = new Dimensions(this, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		batch = new SpriteBatch();
 		setScreen(new PlayScreen(this));
 	}
