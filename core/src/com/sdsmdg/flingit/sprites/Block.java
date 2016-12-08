@@ -1,9 +1,9 @@
 package com.sdsmdg.flingit.sprites;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
+import com.sdsmdg.flingit.constants.Constants;
 import com.sdsmdg.flingit.screens.PlayScreen;
 
 /**
@@ -13,8 +13,7 @@ import com.sdsmdg.flingit.screens.PlayScreen;
 public class Block {
 
     private int topBlockMargin;
-    private final Color COLOR_BOTTOM = Color.OLIVE;
-    private final Color COLOR_TOP = Color.GOLD;
+
     private Vector3 paramsBottomBlock, paramsTopBlock;
     private Rectangle bottomRectBlock, topRectBlock, topRectLine;
     private PlayScreen playScreen;
@@ -38,9 +37,9 @@ public class Block {
     public void render(ShapeRenderer renderer) {
 
         renderer.set(ShapeRenderer.ShapeType.Filled);
-        renderer.setColor(COLOR_BOTTOM);
+        renderer.setColor(Constants.COLOR_BOTTOM);
         renderer.rect(paramsBottomBlock.x, 0, paramsBottomBlock.y, paramsBottomBlock.z);
-        renderer.setColor(COLOR_TOP);
+        renderer.setColor(Constants.COLOR_TOP);
         renderer.rect(paramsTopBlock.x, paramsBottomBlock.z, paramsTopBlock.y, paramsTopBlock.z);
     }
 
@@ -67,6 +66,7 @@ public class Block {
 
             //Update camera to the ball's current position.
             playScreen.setUpdateCamera(true);
+
             return false;
         } else if (rectBody.overlaps(bottomRectBlock) || rectBody.overlaps(topRectBlock)) {
             playScreen.setUpdateCamera(false);

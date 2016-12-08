@@ -27,6 +27,7 @@ public class PlayScreen implements Screen {
     private int tempBlockNumber = 0;
     private Array<Vector3> blockParams;
     private boolean isUpdateCamera = false;
+    private boolean isUpdateBodyRadius = false;
 
     public PlayScreen(FLINGitGame game) {
         renderer = new ShapeRenderer();
@@ -35,7 +36,7 @@ public class PlayScreen implements Screen {
         blocks = new Array<Block>();
         camera = new OrthographicCamera();
         camera.setToOrtho(false, game.dimensions.getScreenWidth(), game.dimensions.getScreenHeight());
-        body = new Body(game, camera, 200, 500);
+        body = new Body(game, this, camera, 200, 500);
         Gdx.app.log(TAG, "Width : " + game.dimensions.getScreenWidth() + "\nHeight : " +
                 game.dimensions.getScreenHeight());
         Gdx.input.setInputProcessor(body);
@@ -61,10 +62,19 @@ public class PlayScreen implements Screen {
             if (camera.position.x - body.getPosition().x < (game.dimensions.getScreenWidth() / 5)) {
                 camera.position.x += delta * (game.dimensions.getScreenWidth() / 3);
             } else {
-                isUpdateCamera = false;
+                setUpdateCamera(false);
             }
         }
 
+        if (isUpdateBodyRadius) {
+            if (body.getBaseRadius() < (1.0f / Constants.RADIUS_FACTOR * (game.dimensions.getScreenWidth()))) {
+                body.setBaseRadius((float) (body.getBaseRadius() + delta * game.dimensions.getScreenWidth() / 100.0));
+            } else {
+                setUpdateBodyRadius(false);
+            }
+        }
+
+        Gdx.app.log(TAG, "isUpdateBodyRadius : " + isUpdateBodyRadius);
         renderer.setProjectionMatrix(camera.combined);
 
         body.update(delta);
@@ -119,5 +129,9 @@ public class PlayScreen implements Screen {
 
     public void setUpdateCamera(boolean updateCamera) {
         isUpdateCamera = updateCamera;
+    }
+
+    public void setUpdateBodyRadius(boolean updateBodyRadius) {
+        isUpdateBodyRadius = updateBodyRadius;
     }
 }
