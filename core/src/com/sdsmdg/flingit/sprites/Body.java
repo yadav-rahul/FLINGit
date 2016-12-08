@@ -1,6 +1,5 @@
 package com.sdsmdg.flingit.sprites;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -63,7 +62,7 @@ public class Body extends InputAdapter {
             rectBody.setPosition(position.x - baseRadius, position.y - baseRadius);
         }
 
-        Gdx.app.log(TAG, "Position X : " + position.x + " || Position Y : " + position.y + " || Velocity Y : " + velocity.y);
+       // Gdx.app.log(TAG, "Position X : " + position.x + " || Position Y : " + position.y + " || Velocity Y : " + velocity.y);
 
         collideWithWalls(baseRadius * radiusMultiplier, game.dimensions.getScreenWidth(),
                 game.dimensions.getScreenHeight());
@@ -122,7 +121,7 @@ public class Body extends InputAdapter {
             flicking = false;
             Vector3 flickEnd = camera.unproject(new Vector3(screenX, screenY, 0));
             Vector3 flickVector = new Vector3(flickEnd.x - flickStart.x, flickEnd.y - flickStart.y, 0);
-            flickVector.x = (float) (flickVector.x * 0.3);
+            flickVector.x = (float) (flickVector.x * 0.4);
             flickVector.y = (float) (flickVector.y * 0.5);
             velocity = (flickVector);
             isUpdate = true;

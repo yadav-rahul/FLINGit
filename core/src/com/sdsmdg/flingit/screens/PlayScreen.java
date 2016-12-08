@@ -26,6 +26,7 @@ public class PlayScreen implements Screen {
     private Array<Block> blocks;
     private int tempBlockNumber = 0;
     private Array<Vector3> blockParams;
+    private boolean isUpdateCamera = false;
 
     public PlayScreen(FLINGitGame game) {
         renderer = new ShapeRenderer();
@@ -56,7 +57,14 @@ public class PlayScreen implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        camera.position.x = body.getPosition().x + (game.dimensions.getScreenWidth() / 5);
+        if (isUpdateCamera) {
+            if (camera.position.x - body.getPosition().x < (game.dimensions.getScreenWidth() / 5)) {
+                camera.position.x += delta * (game.dimensions.getScreenWidth() / 3);
+            } else {
+                isUpdateCamera = false;
+            }
+        }
+
         renderer.setProjectionMatrix(camera.combined);
 
         body.update(delta);
@@ -67,7 +75,7 @@ public class PlayScreen implements Screen {
                 block.reposition((int) (newBlockParams.x), (int) (newBlockParams.y), (int) (newBlockParams.z));
             }
 
-            if (block.collide(body, body.getRectBody())) {
+            if (block.collide(this, body, body.getRectBody())) {
                 game.setScreen(new PlayScreen(game));
             }
             tempBlockNumber++;
@@ -107,5 +115,9 @@ public class PlayScreen implements Screen {
     @Override
     public void dispose() {
         game.batch.dispose();
+    }
+
+    public void setUpdateCamera(boolean updateCamera) {
+        isUpdateCamera = updateCamera;
     }
 }
