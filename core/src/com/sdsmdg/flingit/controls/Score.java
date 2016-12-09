@@ -1,5 +1,8 @@
 package com.sdsmdg.flingit.controls;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
+
 /**
  * Created by rahul on 8/12/16.
  */
@@ -9,9 +12,11 @@ public class Score {
     private int finalBlockId;
     private boolean initiated = false;
     private boolean collide = false;
+    private Preferences preferences;
 
     public Score() {
         score = 0;
+        preferences = Gdx.app.getPreferences("UserPreferences");
     }
 
     public void updateScore() {
@@ -22,18 +27,18 @@ public class Score {
             switch (temp) {
                 case 0:
                     if (finalBlockId == 1) {
-                        score += 1;
+                        increaseScore();
                     }
                     break;
                 case 1:
                     if (finalBlockId == 2) {
-                        score += 1;
+                        increaseScore();
                     }
                     break;
 
                 case 2:
                     if (finalBlockId == 3) {
-                        score += 1;
+                        increaseScore();
                     }
                     break;
 
@@ -46,6 +51,21 @@ public class Score {
         }
     }
 
+    private void increaseScore() {
+        score += 1;
+        if (score > getHighScore()) {
+            updateHighScore();
+        }
+    }
+
+    public int getHighScore() {
+        return preferences.getInteger("highscore");
+    }
+
+    public void updateHighScore() {
+        preferences.putInteger("highscore", getScore());
+        preferences.flush();
+    }
 
     public void setInitiated(boolean initiated) {
         this.initiated = initiated;

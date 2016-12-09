@@ -9,9 +9,9 @@ import com.badlogic.gdx.graphics.Color;
 public class Constants {
     public static final int BLOCK_COUNT = 3;
 
-    public static final double RATIO_SMALL =  0.2;
-    public static final double RATIO_MEDIUM =  0.3;
-    public static final double RATIO_LARGE =  0.4;
+    public static final double RATIO_SMALL =  0.15;
+    public static final double RATIO_MEDIUM =  0.2;
+    public static final double RATIO_LARGE =  0.3;
 
     public static final float RADIUS_FACTOR = 20;
     public static final Color COLOR_BODY_FADED = toRGB(245, 0, 87);

@@ -143,13 +143,21 @@ public class PlayScreen implements Screen {
     }
 
     private void renderScore() {
-        BitmapFont smallFont = game.assets.getBitmapSmallFont();
+        BitmapFont font = game.assets.getBitmapSmallFont();
         String scoreToText = String.valueOf(score.getScore());
-        glyphLayout.setText(smallFont, scoreToText);
+        glyphLayout.setText(font, scoreToText);
         float layoutWidth = glyphLayout.width;
         float layoutHeight = glyphLayout.height;
-        smallFont.draw(spriteBatch, scoreToText, game.dimensions.getScreenWidth() - layoutWidth,
+        font.draw(spriteBatch, scoreToText, game.dimensions.getScreenWidth() - layoutWidth,
                 game.dimensions.getScreenHeight() - (float) 0.1 * layoutHeight);
+
+        font = game.assets.getBitmapMediumFont();
+        String highScoreToText = String.valueOf(score.getHighScore());
+        glyphLayout.setText(font, highScoreToText);
+        layoutWidth = glyphLayout.width;
+        layoutHeight = glyphLayout.height;
+        font.draw(spriteBatch, String.valueOf(score.getHighScore()), game.dimensions.getScreenWidth() - layoutWidth,
+                game.dimensions.getScreenHeight() - layoutHeight);
     }
 
     @Override
