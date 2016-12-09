@@ -4,6 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
@@ -22,7 +25,8 @@ public class PlayScreen implements Screen {
     private final static String TAG = "com.sdsmdg.flingit.screens";
     private FLINGitGame game;
 
-    private OrthographicCamera camera;
+    private OrthographicCamera gameCam;
+    private OrthographicCamera guiCam;
     private ShapeRenderer renderer;
     private Body body;
     private Array<Block> blocks;
@@ -31,25 +35,33 @@ public class PlayScreen implements Screen {
     private boolean isUpdateCamera = false;
     private boolean isUpdateBodyRadius = false;
     private boolean isAttachCamera = false;
-    private float cameraDisplacement;
+    private float gameCamDisplacement;
     private int defaultLeftMarginX;
     private int defaultLeftMarginY;
     private boolean isCameraMoving = false;
     private Score score;
+    private GlyphLayout glyphLayout;
+    private SpriteBatch spriteBatch;
+
     public PlayScreen(FLINGitGame game) {
+        glyphLayout = new GlyphLayout();
         score = new Score();
+
+        spriteBatch = new SpriteBatch();
+
         renderer = new ShapeRenderer();
         renderer.setAutoShapeType(true);
         this.game = game;
         blocks = new Array<Block>();
-        camera = new OrthographicCamera();
-        camera.setToOrtho(false, game.dimensions.getScreenWidth(), game.dimensions.getScreenHeight());
-
+        gameCam = new OrthographicCamera();
+        guiCam = new OrthographicCamera();
+        gameCam.setToOrtho(false, game.dimensions.getScreenWidth(), game.dimensions.getScreenHeight());
+        guiCam.setToOrtho(false, game.dimensions.getScreenWidth(), game.dimensions.getScreenHeight());
 
         defaultLeftMarginX = game.dimensions.getScreenWidth() / 7;
         defaultLeftMarginY = game.dimensions.getScreenHeight() / 3;
 
-        body = new Body(game, this, score, camera, defaultLeftMarginX, defaultLeftMarginY);
+        body = new Body(game, this, score, gameCam, defaultLeftMarginX, defaultLeftMarginY);
         Gdx.app.log(TAG, "Width : " + game.dimensions.getScreenWidth() + "\nHeight : " +
                 game.dimensions.getScreenHeight());
         Gdx.input.setInputProcessor(body);
@@ -57,10 +69,11 @@ public class PlayScreen implements Screen {
 
 
         for (int i = 0; i < Constants.BLOCK_COUNT; i++) {
-            blocks.add(new Block(camera,body, i + 1, (int) (blockParams.get(i).x), (int) (blockParams.get(i).y),
+            blocks.add(new Block(gameCam, body, i + 1, (int) (blockParams.get(i).x), (int) (blockParams.get(i).y),
                     (int) (blockParams.get(i).z), game));
         }
-        camera.position.x = body.getPosition().x - defaultLeftMarginX + camera.viewportWidth / 2;
+        gameCam.position.x = body.getPosition().x - defaultLeftMarginX + gameCam.viewportWidth / 2;
+        guiCam.position.x = body.getPosition().x - defaultLeftMarginX + guiCam.viewportWidth / 2;
     }
 
     @Override
@@ -73,13 +86,13 @@ public class PlayScreen implements Screen {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         if (isUpdateCamera) {
-            if (camera.position.x - body.getPosition().x < camera.viewportWidth / 2 - defaultLeftMarginX) {
+            if (gameCam.position.x - body.getPosition().x < gameCam.viewportWidth / 2 - defaultLeftMarginX) {
                 isCameraMoving = true;
-                camera.position.x += delta * (game.dimensions.getScreenWidth());
+                gameCam.position.x += delta * (game.dimensions.getScreenWidth());
             } else {
                 setUpdateCamera(false);
                 isCameraMoving = false;
-                //Now camera is updated to it's new position and it's time for new block to pop-up
+                //Now gameCam is updated to it's new position and it's time for new block to pop-up
 
             }
         }
@@ -93,16 +106,16 @@ public class PlayScreen implements Screen {
         }
 
         if (isAttachCamera) {
-            camera.position.x = body.getPosition().x + cameraDisplacement - defaultLeftMarginX + camera.viewportWidth / 2;
+            gameCam.position.x = body.getPosition().x + gameCamDisplacement - defaultLeftMarginX + gameCam.viewportWidth / 2;
         }
 
-        renderer.setProjectionMatrix(camera.combined);
+        renderer.setProjectionMatrix(gameCam.combined);
 
         body.update(delta);
         score.updateScore();
         tempBlockNumber = 0;
         for (Block block : blocks) {
-            if (camera.position.x - (camera.viewportWidth / 2) > block.getParamsBlock().x + block.getParamsBlock().y) {
+            if (gameCam.position.x - (gameCam.viewportWidth / 2) > block.getParamsBlock().x + block.getParamsBlock().y) {
                 Vector3 newBlockParams = game.dimensions.getNewBlockParams(tempBlockNumber);
                 block.reposition((int) (newBlockParams.x), (int) (newBlockParams.y), (int) (newBlockParams.z));
             }
@@ -120,10 +133,23 @@ public class PlayScreen implements Screen {
             block.render(game, block, renderer, score.getScore());
         }
         renderer.end();
-        camera.update();
-        game.batch.begin();
 
-        game.batch.end();
+        gameCam.update();
+
+        spriteBatch.setProjectionMatrix(guiCam.combined);
+        spriteBatch.begin();
+        renderScore();
+        spriteBatch.end();
+    }
+
+    private void renderScore() {
+        BitmapFont smallFont = game.assets.getBitmapSmallFont();
+        String scoreToText = String.valueOf(score.getScore());
+        glyphLayout.setText(smallFont, scoreToText);
+        float layoutWidth = glyphLayout.width;
+        float layoutHeight = glyphLayout.height;
+        smallFont.draw(spriteBatch, scoreToText, game.dimensions.getScreenWidth() - layoutWidth,
+                game.dimensions.getScreenHeight() - (float) 0.1 * layoutHeight);
     }
 
     @Override
@@ -148,7 +174,7 @@ public class PlayScreen implements Screen {
 
     @Override
     public void dispose() {
-        game.batch.dispose();
+        spriteBatch.dispose();
     }
 
     public void setUpdateCamera(boolean updateCamera) {
@@ -160,7 +186,7 @@ public class PlayScreen implements Screen {
     }
 
     public void setAttachCamera(boolean attachCamera, float displacement) {
-        cameraDisplacement = displacement;
+        gameCamDisplacement = displacement;
         isAttachCamera = attachCamera;
     }
 

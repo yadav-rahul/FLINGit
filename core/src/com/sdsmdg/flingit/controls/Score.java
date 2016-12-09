@@ -5,7 +5,7 @@ package com.sdsmdg.flingit.controls;
  */
 
 public class Score {
-    private int score;
+    private int score = 0;
     private int finalBlockId;
     private boolean initiated = false;
     private boolean collide = false;
