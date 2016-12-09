@@ -1,9 +1,13 @@
 package com.sdsmdg.flingit.sprites;
 
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Array;
+import com.sdsmdg.flingit.FLINGitGame;
 import com.sdsmdg.flingit.constants.Constants;
+import com.sdsmdg.flingit.controls.Score;
 import com.sdsmdg.flingit.screens.PlayScreen;
 
 /**
@@ -12,14 +16,23 @@ import com.sdsmdg.flingit.screens.PlayScreen;
 
 public class Block {
 
+    private final static String TAG = "com.sdsmdg.flingit.sprites";
+    private int id;
     private int topBlockMargin;
 
     private Vector3 paramsBottomBlock, paramsTopBlock;
     private Rectangle bottomRectBlock, topRectBlock, topRectLine;
     private PlayScreen playScreen;
+    private OrthographicCamera camera;
+    private Body body;
+    private Array<Vector3> paramsBlockRecord;
 
-    public Block(int x, int width, int height, int screenWidth) {
-        topBlockMargin = screenWidth / 40;
+    public Block(OrthographicCamera camera, Body body, int id, int x, int width, int height, FLINGitGame game) {
+        this.paramsBlockRecord = game.dimensions.getParamsBlockRecord();
+        this.body = body;
+        this.camera = camera;
+        this.id = id;
+        topBlockMargin = game.dimensions.getScreenWidth() / 40;
 
         paramsBottomBlock = new Vector3(x, width, height - topBlockMargin);
         paramsTopBlock = new Vector3(x - topBlockMargin, width + 2 * topBlockMargin, topBlockMargin);
@@ -34,13 +47,74 @@ public class Block {
 
     }
 
-    public void render(ShapeRenderer renderer) {
+    public void render(FLINGitGame game, Block block, ShapeRenderer renderer, int score) {
 
-        renderer.set(ShapeRenderer.ShapeType.Filled);
-        renderer.setColor(Constants.COLOR_BOTTOM);
-        renderer.rect(paramsBottomBlock.x, 0, paramsBottomBlock.y, paramsBottomBlock.z);
-        renderer.setColor(Constants.COLOR_TOP);
-        renderer.rect(paramsTopBlock.x, paramsBottomBlock.z, paramsTopBlock.y, paramsTopBlock.z);
+        switch (body.getCurrentBlockId()) {
+            case 0: {
+                //render only one block
+                if (block.getId() == 1) {
+                    renderer.set(ShapeRenderer.ShapeType.Filled);
+                    renderer.setColor(Constants.COLOR_BOTTOM);
+                    renderer.rect(paramsBottomBlock.x, 0, paramsBottomBlock.y, paramsBottomBlock.z);
+                    renderer.setColor(Constants.COLOR_TOP);
+                    renderer.rect(paramsTopBlock.x, paramsBottomBlock.z, paramsTopBlock.y, paramsTopBlock.z);
+                }
+                break;
+            }
+            case 1: {
+                if (block.getId() == 1 || block.getId() == 2){
+                    renderer.set(ShapeRenderer.ShapeType.Filled);
+                    renderer.setColor(Constants.COLOR_BOTTOM);
+                    renderer.rect(paramsBottomBlock.x, 0, paramsBottomBlock.y, paramsBottomBlock.z);
+                    renderer.setColor(Constants.COLOR_TOP);
+                    renderer.rect(paramsTopBlock.x, paramsBottomBlock.z, paramsTopBlock.y, paramsTopBlock.z);
+                }
+                else if (block.getId() == 3 && (paramsBlockRecord.get(2).x  < paramsBlockRecord.get(0).x)) {
+                    renderer.set(ShapeRenderer.ShapeType.Filled);
+                    renderer.setColor(Constants.COLOR_BOTTOM);
+                    renderer.rect(paramsBottomBlock.x, 0, paramsBottomBlock.y, paramsBottomBlock.z);
+                    renderer.setColor(Constants.COLOR_TOP);
+                    renderer.rect(paramsTopBlock.x, paramsBottomBlock.z, paramsTopBlock.y, paramsTopBlock.z);
+                }
+                break;
+            }
+            case 2: {
+                if (block.getId() == 2 || block.getId() == 3){
+                    renderer.set(ShapeRenderer.ShapeType.Filled);
+                    renderer.setColor(Constants.COLOR_BOTTOM);
+                    renderer.rect(paramsBottomBlock.x, 0, paramsBottomBlock.y, paramsBottomBlock.z);
+                    renderer.setColor(Constants.COLOR_TOP);
+                    renderer.rect(paramsTopBlock.x, paramsBottomBlock.z, paramsTopBlock.y, paramsTopBlock.z);
+                }
+                else if (block.getId() == 1 && (paramsBlockRecord.get(0).x < paramsBlockRecord.get(1).x)) {
+                    renderer.set(ShapeRenderer.ShapeType.Filled);
+                    renderer.setColor(Constants.COLOR_BOTTOM);
+                    renderer.rect(paramsBottomBlock.x, 0, paramsBottomBlock.y, paramsBottomBlock.z);
+                    renderer.setColor(Constants.COLOR_TOP);
+                    renderer.rect(paramsTopBlock.x, paramsBottomBlock.z, paramsTopBlock.y, paramsTopBlock.z);
+                }
+                break;
+            }
+            case 3: {
+                if (block.getId() == 3 || block.getId() == 1){
+                    renderer.set(ShapeRenderer.ShapeType.Filled);
+                    renderer.setColor(Constants.COLOR_BOTTOM);
+                    renderer.rect(paramsBottomBlock.x, 0, paramsBottomBlock.y, paramsBottomBlock.z);
+                    renderer.setColor(Constants.COLOR_TOP);
+                    renderer.rect(paramsTopBlock.x, paramsBottomBlock.z, paramsTopBlock.y, paramsTopBlock.z);
+                }
+                else if (block.getId() == 2 && (paramsBlockRecord.get(1).x < paramsBlockRecord.get(2).x)) {
+                    renderer.set(ShapeRenderer.ShapeType.Filled);
+                    renderer.setColor(Constants.COLOR_BOTTOM);
+                    renderer.rect(paramsBottomBlock.x, 0, paramsBottomBlock.y, paramsBottomBlock.z);
+                    renderer.setColor(Constants.COLOR_TOP);
+                    renderer.rect(paramsTopBlock.x, paramsBottomBlock.z, paramsTopBlock.y, paramsTopBlock.z);
+                }
+                break;
+            }
+
+        }
+
     }
 
     public void reposition(int x, int width, int height) {
@@ -55,17 +129,30 @@ public class Block {
         return paramsBottomBlock;
     }
 
-    public boolean collide(PlayScreen playScreen, Body body, Rectangle rectBody) {
+    public int getId() {
+        return id;
+    }
+
+    public boolean collide(PlayScreen playScreen, Block block, Body body, Rectangle rectBody, Score score) {
         this.playScreen = playScreen;
         if (rectBody.overlaps(topRectLine) && body.getVelocity().y >= 0) {
-            //Set the current position of the block to that position.
-            body.getPosition().y = topRectLine.getY() + topRectLine.getHeight() + body.getBaseRadius();
+            if (body.isInAir()) {
+                body.setInAir(false);
+                playScreen.setUpdateCamera(true);
+                score.setCollide(true, block.getId());
+                body.setCurrentBlockId(block.getId());
+                score.updateScore();
+            }
+
+            //Set the current position of the block to that position
+            body.getPosition().y = topRectLine.getY() + topRectLine.getHeight() + body.getBaseRadius() + 1;
             body.getVelocity().y = 0;
             body.getVelocity().x = 0;
             body.setUpdate(false);
 
+
             //Update camera to the ball's current position.
-            playScreen.setUpdateCamera(true);
+            //TODO Remove this method call from here
 
             return false;
         } else if (rectBody.overlaps(bottomRectBlock) || rectBody.overlaps(topRectBlock)) {

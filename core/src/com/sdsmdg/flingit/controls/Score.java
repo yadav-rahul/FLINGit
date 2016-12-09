@@ -1,7 +1,5 @@
 package com.sdsmdg.flingit.controls;
 
-import com.badlogic.gdx.Gdx;
-
 /**
  * Created by rahul on 8/12/16.
  */
@@ -24,7 +22,6 @@ public class Score {
             switch (temp) {
                 case 0:
                     if (finalBlockId == 1) {
-
                         score += 1;
                     }
                     break;
@@ -43,7 +40,7 @@ public class Score {
 
             }
 
-            Gdx.app.log("TAG", "Score : " + score + " FinalBlockId : " + finalBlockId);
+//            Gdx.app.log("TAG", "Score : " + score + " FinalBlockId : " + finalBlockId);
             initiated = false;
             collide = false;
         }

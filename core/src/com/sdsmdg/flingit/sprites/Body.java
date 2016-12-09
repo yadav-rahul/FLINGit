@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.sdsmdg.flingit.FLINGitGame;
 import com.sdsmdg.flingit.constants.Constants;
+import com.sdsmdg.flingit.controls.Score;
 import com.sdsmdg.flingit.screens.PlayScreen;
 
 /**
@@ -33,12 +34,16 @@ public class Body extends InputAdapter {
     private OrthographicCamera camera;
     private float baseRadius;
     private PlayScreen playScreen;
+    private Score score;
+    private int currentBlockId = 0;
+    private boolean isInAir = false;
 
     //Will be used to grow or shrink radius of ball dynamically
     private float radiusMultiplier;
 
-    public Body(FLINGitGame flinGitGame, PlayScreen playScreen, OrthographicCamera camera, int x, int y) {
+    public Body(FLINGitGame flinGitGame, PlayScreen playScreen, Score score, OrthographicCamera camera, int x, int y) {
 
+        this.score = score;
         this.playScreen = playScreen;
         this.camera = camera;
         this.game = flinGitGame;
@@ -57,7 +62,7 @@ public class Body extends InputAdapter {
 
     public void update(float delta) {
         if (isUpdate) {
-            delta = (((float) -game.dimensions.getScreenWidth()) / 25) * delta;
+            delta = (((float) -game.dimensions.getScreenWidth()) / 35) * delta;
             velocity.y += delta * acc.y;
 
             position.x += delta * velocity.x;
@@ -68,7 +73,8 @@ public class Body extends InputAdapter {
             rectBody.setPosition(position.x - baseRadius, position.y - baseRadius);
         }
 
-        // Gdx.app.log(TAG, "Position X : " + position.x + " || Position Y : " + position.y + " || Velocity Y : " + velocity.y);
+//        Gdx.app.log(TAG, "Position X : " + position.x + " || Position Y : " + position.y +
+//                " || Velocity X : " + velocity.x + " || Velocity Y : " + velocity.y);
 
         collideWithWalls(baseRadius * radiusMultiplier, game.dimensions.getScreenWidth(),
                 game.dimensions.getScreenHeight());
@@ -133,13 +139,16 @@ public class Body extends InputAdapter {
         flickDragged = camera.unproject(new Vector3(screenX, screenY, 0));
         if (flickStart != null && flicking) {
             flickDraggedVector = new Vector3(flickDragged.x - flickStart.x, flickDragged.y - flickStart.y, 0);
-            flickDraggedVector.x = (float) (flickDraggedVector.x * 0.4);
-            flickDraggedVector.y = (float) (flickDraggedVector.y * 0.5);
+            flickDraggedVector.x = (float) (flickDraggedVector.x * 0.3);
+            flickDraggedVector.y = (float) (flickDraggedVector.y * 0.3);
 
             //Change radius factor according to the length of the dragged Vector
-            radiusFactor = 1.0f / (20 + flickDraggedVector.len() / 10);
+            radiusFactor = 1.0f / (20 + flickDraggedVector.len() / 20);
             init();
-            playScreen.setAttachCamera(true, flickDraggedVector.x);
+
+            if (flickDraggedVector.x < 0) {
+                playScreen.setAttachCamera(true, flickDraggedVector.x);
+            }
         }
 
         return true;
@@ -148,19 +157,23 @@ public class Body extends InputAdapter {
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         if (flicking) {
+            isInAir = true;
             //Fade out the color of body
             bodyColor = Constants.COLOR_BODY;
             flicking = false;
             Vector3 flickEnd = camera.unproject(new Vector3(screenX, screenY, 0));
             Vector3 flickVector = new Vector3(flickEnd.x - flickStart.x, flickEnd.y - flickStart.y, 0);
-            flickVector.x = (float) (flickVector.x * 0.4);
-            flickVector.y = (float) (flickVector.y * 0.5);
+            flickVector.x = (float) (flickVector.x * 0.3);
+            flickVector.y = (float) (flickVector.y * 0.3);
             velocity = (flickVector);
 
             isUpdate = true;
+            playScreen.setUpdateCamera(false);
+            playScreen.setUpdateBodyRadius(true);
+            score.setInitiated(true);
         }
         playScreen.setAttachCamera(false, 0);
-        playScreen.setUpdateBodyRadius(true);
+
         return true;
     }
 
@@ -182,5 +195,21 @@ public class Body extends InputAdapter {
 
     public void setBaseRadius(float baseRadius) {
         this.baseRadius = baseRadius;
+    }
+
+    public int getCurrentBlockId() {
+        return currentBlockId;
+    }
+
+    public void setCurrentBlockId(int currentBlockId) {
+        this.currentBlockId = currentBlockId;
+    }
+
+    public boolean isInAir() {
+        return isInAir;
+    }
+
+    public void setInAir(boolean inAir) {
+        isInAir = inAir;
     }
 }

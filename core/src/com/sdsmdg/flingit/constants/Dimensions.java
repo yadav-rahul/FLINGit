@@ -106,11 +106,7 @@ public class Dimensions {
         return newBlockParams;
     }
 
-    public int getGameHeight() {
-        return this.gameHeight;
-    }
-
-    public int getGameWidth() {
-        return this.gameWidth;
+    public Array<Vector3> getParamsBlockRecord() {
+        return paramsBlockRecord;
     }
 }
