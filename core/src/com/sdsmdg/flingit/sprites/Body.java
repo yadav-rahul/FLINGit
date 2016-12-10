@@ -143,7 +143,7 @@ public class Body extends InputAdapter {
             flickDraggedVector.y = (float) (flickDraggedVector.y * 0.3);
 
             //Change radius factor according to the length of the dragged Vector
-            radiusFactor = 1.0f / (20 + flickDraggedVector.len() / 20);
+            radiusFactor = 1.0f / (20 + flickDraggedVector.len() / 10);
             init();
 
             if (flickDraggedVector.x < 0) {

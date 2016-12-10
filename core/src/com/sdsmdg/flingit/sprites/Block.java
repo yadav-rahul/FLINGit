@@ -27,7 +27,8 @@ public class Block {
     private Body body;
     private Array<Vector3> paramsBlockRecord;
 
-    public Block(OrthographicCamera camera, Body body, int id, int x, int width, int height, FLINGitGame game) {
+    public Block(PlayScreen playScreen, OrthographicCamera camera, Body body, int id, int x, int width, int height, FLINGitGame game) {
+        this.playScreen = playScreen;
         this.paramsBlockRecord = game.dimensions.getParamsBlockRecord();
         this.body = body;
         this.camera = camera;
@@ -110,35 +111,43 @@ public class Block {
         return id;
     }
 
-    public boolean collide(PlayScreen playScreen, Block block, Body body, Rectangle rectBody, Score score) {
+    public boolean collide(Block block, Body body, Rectangle rectBody, Score score) {
 
-        if ((score.getModuloThreeScore() == 0 && block.getId() != 2) || ((score.getModuloThreeScore() == 1 && block.getId() != 3)) ||
-                (score.getModuloThreeScore() == 2 && block.getId() != 1)) {
-
-            this.playScreen = playScreen;
-            if (rectBody.overlaps(topRectLine) && body.getVelocity().y >= 0) {
-                if (body.isInAir()) {
-                    body.setInAir(false);
-                    playScreen.setUpdateCamera(true);
-                    score.setCollide(true, block.getId());
-                    body.setCurrentBlockId(block.getId());
-                    score.updateScore();
-                }
-
-                //Set the current position of the block to that position
-                body.getPosition().y = topRectLine.getY() + topRectLine.getHeight() + body.getBaseRadius();
-                body.getVelocity().y = 0;
-                body.getVelocity().x = 0;
-                body.setUpdate(false);
-
-                return false;
-            } else if (rectBody.overlaps(bottomRectBlock) || rectBody.overlaps(topRectBlock)) {
-                playScreen.setUpdateCamera(false);
-                return true;
+        if (score.getScore() == 0) {
+            if (block.getId() == 1) {
+                return detectCollision(block, rectBody, score);
             }
-            return false;
+        } else if ((score.getModuloThreeScore() == 0 && block.getId() != 2) || ((score.getModuloThreeScore() == 1 && block.getId() != 3)) ||
+                (score.getModuloThreeScore() == 2 && block.getId() != 1)) {
+            return detectCollision(block, rectBody, score);
         }
 
+        return false;
+    }
+
+    private boolean detectCollision(Block block, Rectangle rectBody, Score score) {
+
+
+        if (rectBody.overlaps(topRectLine) && body.getVelocity().y >= 0) {
+            if (body.isInAir()) {
+                body.setInAir(false);
+                playScreen.setUpdateCamera(true);
+                score.setCollide(true, block.getId());
+                body.setCurrentBlockId(block.getId());
+                score.updateScore();
+            }
+
+            //Set the current position of the block to that position
+            body.getPosition().y = topRectLine.getY() + topRectLine.getHeight() + body.getBaseRadius();
+            body.getVelocity().y = 0;
+            body.getVelocity().x = 0;
+            body.setUpdate(false);
+
+            return false;
+        } else if (rectBody.overlaps(bottomRectBlock) || rectBody.overlaps(topRectBlock)) {
+            playScreen.setUpdateCamera(false);
+            return true;
+        }
         return false;
     }
 }

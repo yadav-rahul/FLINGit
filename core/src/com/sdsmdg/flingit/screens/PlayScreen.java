@@ -69,7 +69,7 @@ public class PlayScreen implements Screen {
 
 
         for (int i = 0; i < Constants.BLOCK_COUNT; i++) {
-            blocks.add(new Block(gameCam, body, i + 1, (int) (blockParams.get(i).x), (int) (blockParams.get(i).y),
+            blocks.add(new Block(this, gameCam, body, i + 1, (int) (blockParams.get(i).x), (int) (blockParams.get(i).y),
                     (int) (blockParams.get(i).z), game));
         }
         gameCam.position.x = body.getPosition().x - defaultLeftMarginX + gameCam.viewportWidth / 2;
@@ -99,7 +99,7 @@ public class PlayScreen implements Screen {
 
         if (isUpdateBodyRadius) {
             if (body.getBaseRadius() < (1.0f / Constants.RADIUS_FACTOR * (game.dimensions.getScreenWidth()))) {
-                body.setBaseRadius((float) (body.getBaseRadius() + delta * game.dimensions.getScreenWidth() / 100.0));
+                body.setBaseRadius((float) (body.getBaseRadius() + delta * game.dimensions.getScreenWidth() / 25.0));
             } else {
                 setUpdateBodyRadius(false);
             }
@@ -120,7 +120,7 @@ public class PlayScreen implements Screen {
                 block.reposition((int) (newBlockParams.x), (int) (newBlockParams.y), (int) (newBlockParams.z));
             }
 
-            if (block.collide(this, block, body, body.getRectBody(), score)) {
+            if (block.collide(block, body, body.getRectBody(), score)) {
                 game.setScreen(new PlayScreen(game));
             }
             tempBlockNumber++;
