@@ -16,7 +16,7 @@ import com.sdsmdg.flingit.screens.PlayScreen;
 
 public class Block {
 
-    private final static String TAG = "com.sdsmdg.flingit.sprites";
+    private final static String TAG = Block.class.getSimpleName();
     private int id;
     private int topBlockMargin;
 

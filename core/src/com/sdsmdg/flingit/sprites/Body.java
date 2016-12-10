@@ -17,7 +17,7 @@ import com.sdsmdg.flingit.screens.PlayScreen;
 
 public class Body extends InputAdapter {
 
-    private final static String TAG = "com.sdsmdg.flingit.sprites";
+    private final static String TAG = Body.class.getSimpleName();
     private Vector3 position;
     private Vector3 velocity;
     private Vector3 acc;

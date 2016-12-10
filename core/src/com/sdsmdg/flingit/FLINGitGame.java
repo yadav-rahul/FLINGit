@@ -4,7 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.sdsmdg.flingit.constants.Assets;
 import com.sdsmdg.flingit.constants.Dimensions;
-import com.sdsmdg.flingit.screens.PlayScreen;
+import com.sdsmdg.flingit.screens.SplashScreen;
 
 public class FLINGitGame extends Game {
 
@@ -16,8 +16,8 @@ public class FLINGitGame extends Game {
         dimensions = new Dimensions(this, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         assets = new Assets(this);
 
-        assets.setAllFonts();
-        setScreen(new PlayScreen(this));
+        assets.loadSplashScreenSprites();
+        setScreen(new SplashScreen(this, assets));
 
     }
 
@@ -31,6 +31,7 @@ public class FLINGitGame extends Game {
     @Override
     public void dispose() {
         super.dispose();
+        assets.dispose();
     }
 
 }

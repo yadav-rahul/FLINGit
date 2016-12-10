@@ -6,7 +6,9 @@ package com.sdsmdg.flingit.constants;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.sdsmdg.flingit.FLINGitGame;
 
@@ -14,6 +16,8 @@ public class Assets {
 
     private BitmapFont bitmapSmallFont, bitmapMediumFont, bitmapLargeFont;
     private FLINGitGame game;
+    private Texture groupLogoTexture;
+    private Sprite groupLogoSprite;
 
     public Assets(FLINGitGame game) {
         this.game = game;
@@ -30,7 +34,18 @@ public class Assets {
         return font;
     }
 
-    public void setAllFonts() {
+    public void loadSplashScreenSprites(){
+        groupLogoTexture = new Texture(Gdx.files.internal("mdg_logo.png"));
+        //for minification and magnification
+        groupLogoTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        groupLogoSprite = new Sprite(groupLogoTexture);
+    }
+
+    public void loadGameScreenSprites(){
+
+    }
+
+    public void loadAllFonts() {
         setBitmapSmallFont();
         setBitmapMediumFont();
         setBitmapLargeFont();
@@ -52,7 +67,26 @@ public class Assets {
         bitmapMediumFont = loadFont(Constants.RATIO_MEDIUM);
     }
 
+    public BitmapFont getBitmapLargeFont() {
+        return bitmapLargeFont;
+    }
+
     private void setBitmapLargeFont() {
         bitmapLargeFont = loadFont(Constants.RATIO_LARGE);
+    }
+
+
+    public Sprite getGroupLogoSprite() {
+        return groupLogoSprite;
+    }
+
+    public void dispose() {
+        //disposing textures
+        groupLogoTexture.dispose();
+
+        //disposing fonts
+        bitmapSmallFont.dispose();
+        bitmapMediumFont.dispose();
+        bitmapLargeFont.dispose();
     }
 }

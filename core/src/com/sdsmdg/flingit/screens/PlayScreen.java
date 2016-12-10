@@ -22,7 +22,7 @@ import com.sdsmdg.flingit.sprites.Body;
 
 public class PlayScreen implements Screen {
 
-    private final static String TAG = "com.sdsmdg.flingit.screens";
+    private final static String TAG = PlayScreen.class.getSimpleName();
     private FLINGitGame game;
 
     private OrthographicCamera gameCam;
