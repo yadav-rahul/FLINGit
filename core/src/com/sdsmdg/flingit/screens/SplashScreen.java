@@ -15,7 +15,6 @@ import com.sdsmdg.flingit.constants.Assets;
 
 public class SplashScreen implements Screen {
 
-    private final String TAG = SplashScreen.class.getSimpleName();
     private FLINGitGame game;
     private OrthographicCamera camera;
     private SpriteBatch spriteBatch;
@@ -55,6 +54,7 @@ public class SplashScreen implements Screen {
                     public void run() {
                         assets.loadGameScreenSprites();
                         assets.loadAllFonts();
+                        Gdx.app.log("TAG", "Time : " + (System.currentTimeMillis() - time)/1000.0 );
                     }
                 });
             }
@@ -70,8 +70,8 @@ public class SplashScreen implements Screen {
         spriteBatch.begin();
         groupLogo.draw(spriteBatch);
         spriteBatch.end();
-        if (System.currentTimeMillis() >= time + 3000) {
-            game.setScreen(new PlayScreen(game));
+        if (System.currentTimeMillis() >= time + 5000) {
+            game.setScreen(new StartScreen(game, assets));
         }
     }
 

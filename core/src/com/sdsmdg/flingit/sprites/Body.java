@@ -22,7 +22,7 @@ public class Body extends InputAdapter {
     private Vector3 velocity;
     private Vector3 acc;
     private Rectangle rectBody;
-    private Color bodyColor = Constants.COLOR_BODY;
+    private Color bodyColor = Constants.COLOR_PRIMARY_BAR_BLUE;
     private float radiusFactor = 1.0f / Constants.RADIUS_FACTOR;
 
     private FLINGitGame game;
@@ -125,7 +125,7 @@ public class Body extends InputAdapter {
             flickStart = worldClick;
 
             //Fade in the color of body
-            bodyColor = Constants.COLOR_BODY_FADED;
+            bodyColor = Constants.COLOR_SECONDARY_BAR_BLUE;
         }
 
         return true;
@@ -157,7 +157,7 @@ public class Body extends InputAdapter {
         if (flicking) {
             isInAir = true;
             //Fade out the color of body
-            bodyColor = Constants.COLOR_BODY;
+            bodyColor = Constants.COLOR_PRIMARY_BAR_BLUE;
             flicking = false;
             Vector3 flickEnd = camera.unproject(new Vector3(screenX, screenY, 0));
             Vector3 flickVector = new Vector3(flickEnd.x - flickStart.x, flickEnd.y - flickStart.y, 0);

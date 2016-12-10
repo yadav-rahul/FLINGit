@@ -14,7 +14,7 @@ import com.sdsmdg.flingit.FLINGitGame;
 
 public class Assets {
 
-    private BitmapFont bitmapSmallFont, bitmapMediumFont, bitmapLargeFont;
+    private BitmapFont bitmapSmallFont, bitmapMediumFont, bitmapLargeFont, bitmapTitleFont;
     private FLINGitGame game;
     private Texture groupLogoTexture;
     private Sprite groupLogoSprite;
@@ -26,6 +26,17 @@ public class Assets {
     private BitmapFont loadFont(double ratio) {
         BitmapFont font;
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("colaborate-Thin-Regular.otf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = (int) (ratio * game.dimensions.getScreenWidth());
+        font = generator.generateFont(parameter);
+        font.setColor(Color.BLACK);
+        generator.dispose();
+        return font;
+    }
+
+    private BitmapFont loadTitleFont(double ratio) {
+        BitmapFont font;
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("title-font.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = (int) (ratio * game.dimensions.getScreenWidth());
         font = generator.generateFont(parameter);
@@ -46,6 +57,7 @@ public class Assets {
     }
 
     public void loadAllFonts() {
+        setBitmapTitleFont();
         setBitmapSmallFont();
         setBitmapMediumFont();
         setBitmapLargeFont();
@@ -88,5 +100,13 @@ public class Assets {
         bitmapSmallFont.dispose();
         bitmapMediumFont.dispose();
         bitmapLargeFont.dispose();
+    }
+
+    public BitmapFont getBitmapTitleFont() {
+        return bitmapTitleFont;
+    }
+
+    public void setBitmapTitleFont() {
+        bitmapTitleFont = loadTitleFont(Constants.RATIO_LARGE);
     }
 }
