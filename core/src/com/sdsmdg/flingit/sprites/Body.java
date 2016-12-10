@@ -62,7 +62,7 @@ public class Body extends InputAdapter {
 
     public void update(float delta) {
         if (isUpdate) {
-            delta = (((float) -game.dimensions.getScreenWidth()) / 35) * delta;
+            delta = (-25) * delta;
             velocity.y += delta * acc.y;
 
             position.x += delta * velocity.x;
@@ -86,9 +86,7 @@ public class Body extends InputAdapter {
     }
 
     private void collideWithWalls(float radius, float viewportWidth, float viewportHeight) {
-        if (position.x - radius < 0) {
-            position.x = radius;
-            velocity.x = 0;
+        if (position.x - radius < camera.position.x - (camera.viewportWidth / 2)) {
             game.setScreen(new PlayScreen(game));
         }
         if (position.x > camera.position.x + (camera.viewportWidth / 2)) {
@@ -140,7 +138,7 @@ public class Body extends InputAdapter {
         if (flickStart != null && flicking) {
             flickDraggedVector = new Vector3(flickDragged.x - flickStart.x, flickDragged.y - flickStart.y, 0);
             flickDraggedVector.x = (float) (flickDraggedVector.x * 0.3);
-            flickDraggedVector.y = (float) (flickDraggedVector.y * 0.3);
+            flickDraggedVector.y = (float) (flickDraggedVector.y * 0.35);
 
             //Change radius factor according to the length of the dragged Vector
             radiusFactor = 1.0f / (20 + flickDraggedVector.len() / 10);
@@ -164,7 +162,7 @@ public class Body extends InputAdapter {
             Vector3 flickEnd = camera.unproject(new Vector3(screenX, screenY, 0));
             Vector3 flickVector = new Vector3(flickEnd.x - flickStart.x, flickEnd.y - flickStart.y, 0);
             flickVector.x = (float) (flickVector.x * 0.3);
-            flickVector.y = (float) (flickVector.y * 0.3);
+            flickVector.y = (float) (flickVector.y * 0.35);
             velocity = (flickVector);
 
             isUpdate = true;
