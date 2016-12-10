@@ -197,8 +197,4 @@ public class PlayScreen implements Screen {
         gameCamDisplacement = displacement;
         isAttachCamera = attachCamera;
     }
-
-    public boolean isCameraMoving() {
-        return isCameraMoving;
-    }
 }

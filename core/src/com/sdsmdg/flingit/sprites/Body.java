@@ -92,7 +92,7 @@ public class Body extends InputAdapter {
             game.setScreen(new PlayScreen(game));
         }
         if (position.x > camera.position.x + (camera.viewportWidth / 2)) {
-           game.setScreen(new PlayScreen(game));
+            game.setScreen(new PlayScreen(game));
         }
         if (position.y - radius < 0) {
             position.y = radius;

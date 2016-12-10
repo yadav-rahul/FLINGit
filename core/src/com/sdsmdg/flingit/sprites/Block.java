@@ -53,68 +53,45 @@ public class Block {
             case 0: {
                 //render only one block
                 if (block.getId() == 1) {
-                    renderer.set(ShapeRenderer.ShapeType.Filled);
-                    renderer.setColor(Constants.COLOR_BOTTOM);
-                    renderer.rect(paramsBottomBlock.x, 0, paramsBottomBlock.y, paramsBottomBlock.z);
-                    renderer.setColor(Constants.COLOR_TOP);
-                    renderer.rect(paramsTopBlock.x, paramsBottomBlock.z, paramsTopBlock.y, paramsTopBlock.z);
+                    renderBlocks(renderer);
                 }
                 break;
             }
             case 1: {
-                if (block.getId() == 1 || block.getId() == 2){
-                    renderer.set(ShapeRenderer.ShapeType.Filled);
-                    renderer.setColor(Constants.COLOR_BOTTOM);
-                    renderer.rect(paramsBottomBlock.x, 0, paramsBottomBlock.y, paramsBottomBlock.z);
-                    renderer.setColor(Constants.COLOR_TOP);
-                    renderer.rect(paramsTopBlock.x, paramsBottomBlock.z, paramsTopBlock.y, paramsTopBlock.z);
-                }
-                else if (block.getId() == 3 && (paramsBlockRecord.get(2).x  < paramsBlockRecord.get(0).x)) {
-                    renderer.set(ShapeRenderer.ShapeType.Filled);
-                    renderer.setColor(Constants.COLOR_BOTTOM);
-                    renderer.rect(paramsBottomBlock.x, 0, paramsBottomBlock.y, paramsBottomBlock.z);
-                    renderer.setColor(Constants.COLOR_TOP);
-                    renderer.rect(paramsTopBlock.x, paramsBottomBlock.z, paramsTopBlock.y, paramsTopBlock.z);
+                if (block.getId() == 1 || block.getId() == 2) {
+                    renderBlocks(renderer);
+                } else if (block.getId() == 3 && (paramsBlockRecord.get(2).x < paramsBlockRecord.get(0).x)) {
+                    renderBlocks(renderer);
                 }
                 break;
             }
             case 2: {
-                if (block.getId() == 2 || block.getId() == 3){
-                    renderer.set(ShapeRenderer.ShapeType.Filled);
-                    renderer.setColor(Constants.COLOR_BOTTOM);
-                    renderer.rect(paramsBottomBlock.x, 0, paramsBottomBlock.y, paramsBottomBlock.z);
-                    renderer.setColor(Constants.COLOR_TOP);
-                    renderer.rect(paramsTopBlock.x, paramsBottomBlock.z, paramsTopBlock.y, paramsTopBlock.z);
-                }
-                else if (block.getId() == 1 && (paramsBlockRecord.get(0).x < paramsBlockRecord.get(1).x)) {
-                    renderer.set(ShapeRenderer.ShapeType.Filled);
-                    renderer.setColor(Constants.COLOR_BOTTOM);
-                    renderer.rect(paramsBottomBlock.x, 0, paramsBottomBlock.y, paramsBottomBlock.z);
-                    renderer.setColor(Constants.COLOR_TOP);
-                    renderer.rect(paramsTopBlock.x, paramsBottomBlock.z, paramsTopBlock.y, paramsTopBlock.z);
+                if (block.getId() == 2 || block.getId() == 3) {
+                    renderBlocks(renderer);
+                } else if (block.getId() == 1 && (paramsBlockRecord.get(0).x < paramsBlockRecord.get(1).x)) {
+                    renderBlocks(renderer);
                 }
                 break;
             }
             case 3: {
-                if (block.getId() == 3 || block.getId() == 1){
-                    renderer.set(ShapeRenderer.ShapeType.Filled);
-                    renderer.setColor(Constants.COLOR_BOTTOM);
-                    renderer.rect(paramsBottomBlock.x, 0, paramsBottomBlock.y, paramsBottomBlock.z);
-                    renderer.setColor(Constants.COLOR_TOP);
-                    renderer.rect(paramsTopBlock.x, paramsBottomBlock.z, paramsTopBlock.y, paramsTopBlock.z);
-                }
-                else if (block.getId() == 2 && (paramsBlockRecord.get(1).x < paramsBlockRecord.get(2).x)) {
-                    renderer.set(ShapeRenderer.ShapeType.Filled);
-                    renderer.setColor(Constants.COLOR_BOTTOM);
-                    renderer.rect(paramsBottomBlock.x, 0, paramsBottomBlock.y, paramsBottomBlock.z);
-                    renderer.setColor(Constants.COLOR_TOP);
-                    renderer.rect(paramsTopBlock.x, paramsBottomBlock.z, paramsTopBlock.y, paramsTopBlock.z);
+                if (block.getId() == 3 || block.getId() == 1) {
+                    renderBlocks(renderer);
+                } else if (block.getId() == 2 && (paramsBlockRecord.get(1).x < paramsBlockRecord.get(2).x)) {
+                    renderBlocks(renderer);
                 }
                 break;
             }
 
         }
 
+    }
+
+    private void renderBlocks(ShapeRenderer renderer) {
+        renderer.set(ShapeRenderer.ShapeType.Filled);
+        renderer.setColor(Constants.COLOR_BOTTOM);
+        renderer.rect(paramsBottomBlock.x, 0, paramsBottomBlock.y, paramsBottomBlock.z);
+        renderer.setColor(Constants.COLOR_TOP);
+        renderer.rect(paramsTopBlock.x, paramsBottomBlock.z, paramsTopBlock.y, paramsTopBlock.z);
     }
 
     public void reposition(int x, int width, int height) {
@@ -134,31 +111,34 @@ public class Block {
     }
 
     public boolean collide(PlayScreen playScreen, Block block, Body body, Rectangle rectBody, Score score) {
-        this.playScreen = playScreen;
-        if (rectBody.overlaps(topRectLine) && body.getVelocity().y >= 0) {
-            if (body.isInAir()) {
-                body.setInAir(false);
-                playScreen.setUpdateCamera(true);
-                score.setCollide(true, block.getId());
-                body.setCurrentBlockId(block.getId());
-                score.updateScore();
+
+        if ((score.getModuloThreeScore() == 0 && block.getId() != 2) || ((score.getModuloThreeScore() == 1 && block.getId() != 3)) ||
+                (score.getModuloThreeScore() == 2 && block.getId() != 1)) {
+
+            this.playScreen = playScreen;
+            if (rectBody.overlaps(topRectLine) && body.getVelocity().y >= 0) {
+                if (body.isInAir()) {
+                    body.setInAir(false);
+                    playScreen.setUpdateCamera(true);
+                    score.setCollide(true, block.getId());
+                    body.setCurrentBlockId(block.getId());
+                    score.updateScore();
+                }
+
+                //Set the current position of the block to that position
+                body.getPosition().y = topRectLine.getY() + topRectLine.getHeight() + body.getBaseRadius();
+                body.getVelocity().y = 0;
+                body.getVelocity().x = 0;
+                body.setUpdate(false);
+
+                return false;
+            } else if (rectBody.overlaps(bottomRectBlock) || rectBody.overlaps(topRectBlock)) {
+                playScreen.setUpdateCamera(false);
+                return true;
             }
-
-            //Set the current position of the block to that position
-            body.getPosition().y = topRectLine.getY() + topRectLine.getHeight() + body.getBaseRadius() + 1;
-            body.getVelocity().y = 0;
-            body.getVelocity().x = 0;
-            body.setUpdate(false);
-
-
-            //Update camera to the ball's current position.
-            //TODO Remove this method call from here
-
             return false;
-        } else if (rectBody.overlaps(bottomRectBlock) || rectBody.overlaps(topRectBlock)) {
-            playScreen.setUpdateCamera(false);
-            return true;
         }
+
         return false;
     }
 }

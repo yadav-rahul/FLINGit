@@ -44,7 +44,7 @@ public class Dimensions {
     private Vector2 getRandom() {
         Vector2 vector2 = new Vector2();
         vector2.y = (getScreenWidth() / 20) * (new Random().nextInt(5) + 1);
-        vector2.x = new Random().nextInt((int) ((getScreenWidth() / 2) - vector2.y) ) ;
+        vector2.x = new Random().nextInt((int) ((getScreenWidth() / 2) - vector2.y));
 
         return vector2;
     }

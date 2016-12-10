@@ -40,7 +40,7 @@ public class Assets {
         return bitmapSmallFont;
     }
 
-    public void setBitmapSmallFont() {
+    private void setBitmapSmallFont() {
         bitmapSmallFont = loadFont(Constants.RATIO_SMALL);
     }
 
@@ -48,15 +48,11 @@ public class Assets {
         return bitmapMediumFont;
     }
 
-    public void setBitmapMediumFont() {
+    private void setBitmapMediumFont() {
         bitmapMediumFont = loadFont(Constants.RATIO_MEDIUM);
     }
 
-    public BitmapFont getBitmapLargeFont() {
-        return bitmapLargeFont;
-    }
-
-    public void setBitmapLargeFont() {
+    private void setBitmapLargeFont() {
         bitmapLargeFont = loadFont(Constants.RATIO_LARGE);
     }
 }

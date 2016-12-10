@@ -45,7 +45,6 @@ public class Score {
 
             }
 
-//            Gdx.app.log("TAG", "Score : " + score + " FinalBlockId : " + finalBlockId);
             initiated = false;
             collide = false;
         }
@@ -62,7 +61,7 @@ public class Score {
         return preferences.getInteger("highscore");
     }
 
-    public void updateHighScore() {
+    private void updateHighScore() {
         preferences.putInteger("highscore", getScore());
         preferences.flush();
     }
@@ -79,5 +78,9 @@ public class Score {
 
     public int getScore() {
         return score;
+    }
+
+    public int getModuloThreeScore() {
+        return (score % 3);
     }
 }
