@@ -31,6 +31,9 @@ public class SplashScreen implements Screen {
         camera.setToOrtho(false, game.dimensions.getScreenWidth(), game.dimensions.getScreenHeight());
         spriteBatch.setProjectionMatrix(camera.combined);
 
+        if (!game.playServices.isSignedIn())
+            game.playServices.signIn();
+
         groupLogo = assets.getGroupLogoSprite();
         groupLogo.setPosition(game.dimensions.getScreenWidth() / 4, game.dimensions.getScreenHeight() / 2);
         groupLogo.setSize(game.dimensions.getScreenWidth() / 2, 3 * game.dimensions.getScreenWidth() / 16);
@@ -71,6 +74,7 @@ public class SplashScreen implements Screen {
         groupLogo.draw(spriteBatch);
         spriteBatch.end();
         if (System.currentTimeMillis() >= time + 5000) {
+            this.dispose();
             game.setScreen(new StartScreen(game, assets));
         }
     }

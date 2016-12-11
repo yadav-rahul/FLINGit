@@ -46,7 +46,7 @@ public class PlayScreen implements Screen {
 
     public PlayScreen(FLINGitGame game) {
         glyphLayout = new GlyphLayout();
-        score = new Score();
+        score = new Score(game);
 
         spriteBatch = new SpriteBatch();
 

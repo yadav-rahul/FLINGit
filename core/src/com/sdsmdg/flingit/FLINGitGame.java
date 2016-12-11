@@ -9,7 +9,12 @@ import com.sdsmdg.flingit.screens.SplashScreen;
 public class FLINGitGame extends Game {
 
     public Dimensions dimensions;
+    public PlayServices playServices;
     public Assets assets;
+
+    public FLINGitGame(PlayServices playServices){
+        this.playServices = playServices;
+    }
 
     @Override
     public void create() {

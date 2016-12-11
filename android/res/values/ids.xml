@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Google Play game services IDs.
+Save this file as res/values/games-ids.xml in your project.
+-->
+<resources>
+    <string name="app_id">409333511611</string>
+    <string name="package_name">com.sdsmdg.flingit</string>
+    <string name="achievement_2_games">CgkIu-u28fQLEAIQAg</string>
+    <string name="achievement_10_points">CgkIu-u28fQLEAIQAw</string>
+    <string name="achievement_20_points">CgkIu-u28fQLEAIQBA</string>
+    <string name="achievement_50_points">CgkIu-u28fQLEAIQBQ</string>
+    <string name="achievement_100_points">CgkIu-u28fQLEAIQBg</string>
+    <string name="leaderboard_leaderboard">CgkIu-u28fQLEAIQAQ</string>
+</resources>

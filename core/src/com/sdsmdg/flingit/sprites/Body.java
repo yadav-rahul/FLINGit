@@ -86,7 +86,7 @@ public class Body extends InputAdapter {
     }
 
     private void collideWithWalls(float radius, float viewportWidth, float viewportHeight) {
-        if (position.x - radius < camera.position.x - (camera.viewportWidth / 2)) {
+        if (position.x < camera.position.x - (camera.viewportWidth / 2)) {
             game.setScreen(new PlayScreen(game));
         }
         if (position.x > camera.position.x + (camera.viewportWidth / 2)) {

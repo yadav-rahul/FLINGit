@@ -2,6 +2,7 @@ package com.sdsmdg.flingit.controls;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
+import com.sdsmdg.flingit.FLINGitGame;
 
 /**
  * Created by rahul on 8/12/16.
@@ -13,8 +14,10 @@ public class Score {
     private boolean initiated = false;
     private boolean collide = false;
     private Preferences preferences;
+    private FLINGitGame game;
 
-    public Score() {
+    public Score(FLINGitGame game) {
+        this.game = game;
         score = 0;
         preferences = Gdx.app.getPreferences("UserPreferences");
     }
@@ -54,6 +57,9 @@ public class Score {
         score += 1;
         if (score > getHighScore()) {
             updateHighScore();
+        }
+        if (getScore() == 10){
+            game.playServices.unlockAchievementTenPoints();
         }
     }
 
