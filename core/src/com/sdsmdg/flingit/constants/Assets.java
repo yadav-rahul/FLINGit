@@ -16,8 +16,8 @@ public class Assets {
 
     private BitmapFont bitmapSmallFont, bitmapMediumFont, bitmapLargeFont, bitmapTitleFont;
     private FLINGitGame game;
-    private Texture groupLogoTexture;
-    private Sprite groupLogoSprite;
+    private Texture groupLogoTexture, aboutUsTexture, leaderboardTexture, achievementTexture, soundOnTexture, soundOffTexture;
+    private Sprite groupLogoSprite, aboutUsSprite, leaderboardSprite, achievementSprite, soundOnSprite, soundOffSprite;
 
     public Assets(FLINGitGame game) {
         this.game = game;
@@ -53,7 +53,25 @@ public class Assets {
     }
 
     public void loadGameScreenSprites(){
+        aboutUsTexture = new Texture(Gdx.files.internal("about.png"));
+        aboutUsTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        aboutUsSprite = new Sprite(aboutUsTexture);
 
+        leaderboardTexture = new Texture(Gdx.files.internal("leaderboard.png"));
+        leaderboardTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        leaderboardSprite = new Sprite(leaderboardTexture);
+
+        achievementTexture = new Texture(Gdx.files.internal("achievement.png"));
+        achievementTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        achievementSprite = new Sprite(achievementTexture);
+
+        soundOnTexture = new Texture(Gdx.files.internal("soundOn.png"));
+        soundOnTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        soundOnSprite = new Sprite(soundOnTexture);
+
+        soundOffTexture = new Texture(Gdx.files.internal("soundOff.png"));
+        soundOffTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        soundOffSprite = new Sprite(soundOffTexture);
     }
 
     public void loadAllFonts() {
@@ -87,7 +105,6 @@ public class Assets {
         bitmapLargeFont = loadFont(Constants.RATIO_LARGE);
     }
 
-
     public Sprite getGroupLogoSprite() {
         return groupLogoSprite;
     }
@@ -106,7 +123,27 @@ public class Assets {
         return bitmapTitleFont;
     }
 
-    public void setBitmapTitleFont() {
+    private void setBitmapTitleFont() {
         bitmapTitleFont = loadTitleFont(Constants.RATIO_LARGE);
+    }
+
+    public Sprite getAboutUsSprite() {
+        return aboutUsSprite;
+    }
+
+    public Sprite getLeaderboardSprite() {
+        return leaderboardSprite;
+    }
+
+    public Sprite getAchievementSprite() {
+        return achievementSprite;
+    }
+
+    public Sprite getSoundOnSprite() {
+        return soundOnSprite;
+    }
+
+    public Sprite getSoundOffSprite() {
+        return soundOffSprite;
     }
 }
