@@ -11,9 +11,11 @@ public class FLINGitGame extends Game {
     public Dimensions dimensions;
     public PlayServices playServices;
     public Assets assets;
+    public AboutUs aboutUs;
 
-    public FLINGitGame(PlayServices playServices){
+    public FLINGitGame(PlayServices playServices, AboutUs aboutUs){
         this.playServices = playServices;
+        this.aboutUs = aboutUs;
     }
 
     @Override

@@ -15,7 +15,7 @@ import com.google.android.gms.games.Games;
 import com.google.android.gms.games.GamesActivityResultCodes;
 import com.google.example.games.basegameutils.GameHelper;
 
-public class AndroidLauncher extends AndroidApplication implements PlayServices{
+public class AndroidLauncher extends AndroidApplication implements PlayServices, AboutUs{
 
     private static String TAG = AndroidLauncher.class.getSimpleName();
     private GameHelper gameHelper;
@@ -38,7 +38,7 @@ public class AndroidLauncher extends AndroidApplication implements PlayServices{
         AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 
         //Game View
-        View gameView = initializeForView(new FLINGitGame(this), config);
+        View gameView = initializeForView(new FLINGitGame(this, this), config);
         layout.addView(gameView);
 
         setContentView(layout);
@@ -180,4 +180,9 @@ public class AndroidLauncher extends AndroidApplication implements PlayServices{
         super.onDestroy();
     }
 
+    @Override
+    public void onClick() {
+        Intent i = new Intent(this, AboutUsActivity.class);
+        startActivity(i);
+    }
 }

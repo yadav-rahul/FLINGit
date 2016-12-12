@@ -144,7 +144,7 @@ public class StartScreen extends InputAdapter implements Screen {
                 game.playServices.showScore();
             } else if (worldClick.x > 8 * width / 10 && worldClick.x < 9 * width / 10) {
                 //aboutUs Button Clicked
-
+                game.aboutUs.onClick();
             }
         }
 
