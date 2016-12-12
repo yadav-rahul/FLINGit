@@ -17,7 +17,10 @@ public class Constants {
     public static final float RADIUS_FACTOR = 20;
     public static final Color COLOR_PRIMARY_BAR_BLUE = toRGB(3, 169, 244);
     public static final Color COLOR_SECONDARY_BAR_BLUE = toRGB(2, 136, 209);
+
     public static final Color COLOR_GOLD = toRGB(255, 215, 0);
+    public static final Color COLOR_SILVER = toRGB(192, 192, 192);
+    public static final Color COLOR_DEFAULT_BACKGROUND = toRGB(66, 66, 100);
 
     public static final Color COLOR_BOTTOM = Color.OLIVE;
     public static final Color COLOR_TOP = Color.GOLD;

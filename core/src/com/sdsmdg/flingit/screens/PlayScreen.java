@@ -77,7 +77,7 @@ public class PlayScreen implements Screen {
         }
         gameCam.position.x = body.getPosition().x - defaultLeftMarginX + gameCam.viewportWidth / 2;
         guiCam.position.x = body.getPosition().x - defaultLeftMarginX + guiCam.viewportWidth / 2;
-        coin = new Coin(game, gameCam);
+        coin = new Coin(game, gameCam, score);
     }
 
     @Override
@@ -138,38 +138,95 @@ public class PlayScreen implements Screen {
         }
         renderer.end();
 
+        renderer.setProjectionMatrix(guiCam.combined);
+        renderer.begin();
+        coinBarRender();
+        scoreBarRender();
+        renderer.end();
+
         gameCam.update();
 
         spriteBatch.setProjectionMatrix(guiCam.combined);
         spriteBatch.begin();
         renderScore();
+        renderCoins();
         spriteBatch.end();
 
         spriteBatch.setProjectionMatrix(gameCam.combined);
         spriteBatch.begin();
         if (coin.isRenderCoin()) {
-            coin.render(spriteBatch);
+            coin.render(body, spriteBatch);
         }
         spriteBatch.end();
     }
 
+    private void coinBarRender() {
+        glyphLayout.setText(game.assets.getBitmapSmallFont(),
+                score.getSilverCoinCount() + "/" + score.getGoldCoinCount());
+        float layoutWidthMain = glyphLayout.width;
+        float layoutHeight = glyphLayout.height;
+
+        renderer.set(ShapeRenderer.ShapeType.Filled);
+        renderer.setColor(Constants.COLOR_DEFAULT_BACKGROUND);
+        renderer.rect(game.dimensions.getScreenWidth() - layoutWidthMain - 3 * game.dimensions.getScreenWidth() / 100,
+                game.dimensions.getScreenHeight() - (float) (1.75 * layoutHeight), layoutWidthMain + 2 * game.dimensions.getScreenWidth() / 100, (float) (1.50 * layoutHeight));
+    }
+
+    private void renderCoins() {
+        BitmapFont font = game.assets.getBitmapSmallFont();
+        String main = score.getSilverCoinCount() + "/" + score.getGoldCoinCount();
+        glyphLayout.setText(font, main);
+        float layoutWidthMain = glyphLayout.width;
+        float layoutHeight = glyphLayout.height;
+
+        font.setColor(Constants.COLOR_SILVER);
+        String coinToText = String.valueOf(score.getSilverCoinCount());
+        font.draw(spriteBatch, coinToText, game.dimensions.getScreenWidth() - layoutWidthMain - game.dimensions.getScreenWidth() / 50,
+                game.dimensions.getScreenHeight() - (float) (0.5 * layoutHeight));
+
+        glyphLayout.setText(font, coinToText);
+        float layoutWidth = glyphLayout.width;
+        font.setColor(Color.WHITE);
+        font.draw(spriteBatch, "/", game.dimensions.getScreenWidth() - (layoutWidthMain - layoutWidth) - game.dimensions.getScreenWidth() / 50,
+                game.dimensions.getScreenHeight() - (float) (0.5 * layoutHeight));
+
+        glyphLayout.setText(font, String.valueOf(score.getGoldCoinCount()));
+        layoutWidth = glyphLayout.width;
+        font.setColor(Constants.COLOR_GOLD);
+        font.draw(spriteBatch, String.valueOf(score.getGoldCoinCount()), game.dimensions.getScreenWidth() - layoutWidth - game.dimensions.getScreenWidth() / 50,
+                game.dimensions.getScreenHeight() - (float) (0.5 * layoutHeight));
+
+
+    }
+
+    private void scoreBarRender() {
+        glyphLayout.setText(game.assets.getBitmapSmallFont(), String.valueOf(score.getScore()));
+        float layoutWidthMain = glyphLayout.width;
+        float layoutHeight = glyphLayout.height;
+
+        renderer.set(ShapeRenderer.ShapeType.Filled);
+        renderer.setColor(Constants.COLOR_DEFAULT_BACKGROUND);
+        renderer.rect(game.dimensions.getScreenWidth() / 100,
+                game.dimensions.getScreenHeight() - (float) (1.75 * layoutHeight), layoutWidthMain + 2 * game.dimensions.getScreenWidth() / 100, (float) (1.50 * layoutHeight));
+    }
+
     private void renderScore() {
         BitmapFont font = game.assets.getBitmapSmallFont();
-        font.setColor(Color.BLACK);
+        font.setColor(Color.WHITE);
         String scoreToText = String.valueOf(score.getScore());
         glyphLayout.setText(font, scoreToText);
         float layoutWidth = glyphLayout.width;
         float layoutHeight = glyphLayout.height;
-        font.draw(spriteBatch, scoreToText, game.dimensions.getScreenWidth() - layoutWidth,
-                game.dimensions.getScreenHeight() - (float) 0.1 * layoutHeight);
+        font.draw(spriteBatch, scoreToText, game.dimensions.getScreenWidth() / 50 ,
+                game.dimensions.getScreenHeight() - (float) 0.5 * layoutHeight);
 
-        font = game.assets.getBitmapMediumFont();
-        String highScoreToText = String.valueOf(score.getHighScore());
-        glyphLayout.setText(font, highScoreToText);
-        layoutWidth = glyphLayout.width;
-        layoutHeight = glyphLayout.height;
-        font.draw(spriteBatch, String.valueOf(score.getHighScore()), game.dimensions.getScreenWidth() - layoutWidth,
-                game.dimensions.getScreenHeight() - layoutHeight);
+//        font = game.assets.getBitmapMediumFont();
+//        String highScoreToText = String.valueOf(score.getHighScore());
+//        glyphLayout.setText(font, highScoreToText);
+//        layoutWidth = glyphLayout.width;
+//        layoutHeight = glyphLayout.height;
+//        font.draw(spriteBatch, highScoreToText, (int) 0.5 * layoutWidth,
+//                game.dimensions.getScreenHeight() - layoutHeight);
     }
 
     @Override

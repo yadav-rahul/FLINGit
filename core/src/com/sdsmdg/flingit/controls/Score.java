@@ -11,6 +11,8 @@ import com.sdsmdg.flingit.screens.PlayScreen;
 
 public class Score {
     private int score = 0;
+    private int silverCoinCount;
+    private int goldCoinCount;
     private int finalBlockId;
     private boolean initiated = false;
     private boolean collide = false;
@@ -22,6 +24,8 @@ public class Score {
         this.playScreen = playScreen;
         this.game = game;
         score = 0;
+        silverCoinCount = 0;
+        goldCoinCount = 0;
         preferences = Gdx.app.getPreferences("UserPreferences");
     }
 
@@ -74,7 +78,7 @@ public class Score {
         if (score % 15 == 0) {
             playScreen.getCoin().getRandomPosition();
             playScreen.getCoin().setRenderCoin(1, true);
-        } else if (score % 5 == 0) {
+        } else if (score % 2 == 0) {
             playScreen.getCoin().getRandomPosition();
             playScreen.getCoin().setRenderCoin(0, true);
         }
@@ -90,6 +94,15 @@ public class Score {
         preferences.flush();
     }
 
+    public void increaseCoinCount(int flag) {
+        if (flag == 0) {
+            preferences.putInteger("silvercoincount", getSilverCoinCount() + 1);
+        } else if (flag == 1) {
+            preferences.putInteger("goldcoincount", getGoldCoinCount() + 1);
+        }
+        preferences.flush();
+    }
+
     public void setInitiated(boolean initiated) {
         this.initiated = initiated;
     }
@@ -98,6 +111,14 @@ public class Score {
         //Gdx.app.log("TAG", "Score : " + score + " - Block Id : " + blockId);
         finalBlockId = blockId;
         this.collide = collide;
+    }
+
+    public int getSilverCoinCount() {
+        return preferences.getInteger("silvercoincount");
+    }
+
+    public int getGoldCoinCount() {
+        return preferences.getInteger("goldcoincount");
     }
 
     public int getScore() {

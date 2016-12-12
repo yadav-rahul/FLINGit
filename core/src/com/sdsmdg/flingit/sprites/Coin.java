@@ -3,8 +3,10 @@ package com.sdsmdg.flingit.sprites;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.sdsmdg.flingit.FLINGitGame;
+import com.sdsmdg.flingit.controls.Score;
 
 import java.util.Random;
 
@@ -24,9 +26,12 @@ public class Coin {
     private boolean isRenderCoin;
     private int flag;
     private Random random;
+    private Body body;
+    private Rectangle coinRect;
+    private Score score;
 
-    public Coin(FLINGitGame game, OrthographicCamera camera) {
-
+    public Coin(FLINGitGame game, OrthographicCamera camera, Score score) {
+        this.score = score;
         random = new Random();
         this.game = game;
         this.camera = camera;
@@ -35,6 +40,7 @@ public class Coin {
 
         silverCoinSprite.setSize(game.dimensions.getScreenWidth() / 10, game.dimensions.getScreenWidth() / 10);
         goldCoinSprite.setSize(game.dimensions.getScreenWidth() / 10, game.dimensions.getScreenWidth() / 10);
+
     }
 
     public void getRandomPosition() {
@@ -42,9 +48,11 @@ public class Coin {
                 (random.nextInt((int) (camera.viewportWidth / 2))),
                 random.nextInt((int) (game.dimensions.getScreenHeight() / 4 - silverCoinSprite.getHeight()))
                         + 3 * game.dimensions.getScreenHeight() / 4);
+        coinRect = new Rectangle(position.x, position.y, silverCoinSprite.getWidth(), silverCoinSprite.getHeight());
     }
 
-    public void render(SpriteBatch spriteBatch) {
+    public void render(Body body, SpriteBatch spriteBatch) {
+        this.body = body;
         if (isRenderCoin) {
             if (flag == 0) {
                 //Silver Coin
@@ -58,6 +66,7 @@ public class Coin {
                 goldCoinSprite.draw(spriteBatch);
                 //Gdx.app.log("TAG", "Gold coin at : " + position.x + " : " + position.y);
             }
+            detectCollision();
         }
         if (position.x < camera.position.x - (camera.viewportWidth / 2)) {
             //TODO Do something here
@@ -65,6 +74,13 @@ public class Coin {
         }
     }
 
+    private void detectCollision() {
+        if (coinRect.overlaps(body.getRectBody())){
+            //Remove coin and increase respective coin count by one
+            isRenderCoin = false;
+            score.increaseCoinCount(flag);
+        }
+    }
 
     public Vector2 getPosition() {
         return position;
