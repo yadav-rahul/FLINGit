@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
@@ -15,12 +16,12 @@ import com.google.android.gms.games.Games;
 import com.google.android.gms.games.GamesActivityResultCodes;
 import com.google.example.games.basegameutils.GameHelper;
 
-public class AndroidLauncher extends AndroidApplication implements PlayServices, AboutUs{
+public class AndroidLauncher extends AndroidApplication implements PlayServices, AboutUs {
 
     private static String TAG = AndroidLauncher.class.getSimpleName();
     private GameHelper gameHelper;
     private final static int requestCode = 1;
-
+    private int count = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +79,7 @@ public class AndroidLauncher extends AndroidApplication implements PlayServices,
         super.onActivityResult(requestCode, resultCode, data);
         gameHelper.onActivityResult(requestCode, resultCode, data);
 
-        if (resultCode == GamesActivityResultCodes.RESULT_RECONNECT_REQUIRED){
+        if (resultCode == GamesActivityResultCodes.RESULT_RECONNECT_REQUIRED) {
             // force a disconnect to sync up state, ensuring that mClient reports "not connected"
             gameHelper.disconnect();
         }
@@ -184,5 +185,17 @@ public class AndroidLauncher extends AndroidApplication implements PlayServices,
     public void onClick() {
         Intent i = new Intent(this, AboutUsActivity.class);
         startActivity(i);
+    }
+
+    @Override
+    public void onBackPressed() {
+        count++;
+        if (count == 1) {
+            Toast.makeText(this, "Press once again to exit", Toast.LENGTH_LONG).show();
+        } else if (count == 2) {
+            count = 0;
+            super.onBackPressed();
+        }
+
     }
 }
