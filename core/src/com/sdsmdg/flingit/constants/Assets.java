@@ -16,8 +16,10 @@ public class Assets {
 
     private BitmapFont bitmapSmallFont, bitmapMediumFont, bitmapLargeFont, bitmapTitleFont;
     private FLINGitGame game;
-    private Texture groupLogoTexture, aboutUsTexture, leaderboardTexture, achievementTexture, soundOnTexture, soundOffTexture;
-    private Sprite groupLogoSprite, aboutUsSprite, leaderboardSprite, achievementSprite, soundOnSprite, soundOffSprite;
+    private Texture groupLogoTexture, aboutUsTexture, leaderboardTexture, achievementTexture,
+            soundOnTexture, soundOffTexture, silverCoinTexture, goldCoinTexture;
+    private Sprite groupLogoSprite, aboutUsSprite, leaderboardSprite, achievementSprite,
+            soundOnSprite, soundOffSprite, silverCoinSprite, goldCoinSprite;
 
     public Assets(FLINGitGame game) {
         this.game = game;
@@ -45,14 +47,14 @@ public class Assets {
         return font;
     }
 
-    public void loadSplashScreenSprites(){
+    public void loadSplashScreenSprites() {
         groupLogoTexture = new Texture(Gdx.files.internal("mdg_logo.png"));
         //for minification and magnification
         groupLogoTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         groupLogoSprite = new Sprite(groupLogoTexture);
     }
 
-    public void loadGameScreenSprites(){
+    public void loadGameScreenSprites() {
         aboutUsTexture = new Texture(Gdx.files.internal("about.png"));
         aboutUsTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         aboutUsSprite = new Sprite(aboutUsTexture);
@@ -72,6 +74,14 @@ public class Assets {
         soundOffTexture = new Texture(Gdx.files.internal("soundOff.png"));
         soundOffTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         soundOffSprite = new Sprite(soundOffTexture);
+
+        silverCoinTexture = new Texture(Gdx.files.internal("silvercoin.png"));
+        silverCoinTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        silverCoinSprite = new Sprite(silverCoinTexture);
+
+        goldCoinTexture = new Texture(Gdx.files.internal("goldcoin.png"));
+        goldCoinTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        goldCoinSprite = new Sprite(goldCoinTexture);
     }
 
     public void loadAllFonts() {
@@ -112,6 +122,11 @@ public class Assets {
     public void dispose() {
         //disposing textures
         groupLogoTexture.dispose();
+        aboutUsTexture.dispose();
+        leaderboardTexture.dispose();
+        soundOnTexture.dispose();
+        soundOffTexture.dispose();
+        achievementTexture.dispose();
 
         //disposing fonts
         bitmapSmallFont.dispose();
@@ -145,5 +160,13 @@ public class Assets {
 
     public Sprite getSoundOffSprite() {
         return soundOffSprite;
+    }
+
+    public Sprite getSilverCoinSprite() {
+        return silverCoinSprite;
+    }
+
+    public Sprite getGoldCoinSprite() {
+        return goldCoinSprite;
     }
 }

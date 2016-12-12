@@ -1,6 +1,5 @@
 package com.sdsmdg.flingit.sprites;
 
-import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -14,7 +13,7 @@ import com.sdsmdg.flingit.screens.PlayScreen;
  * Created by rahul on 11/12/16.
  */
 
-public class Bar extends InputAdapter {
+public class Bar {
 
     private final static String TAG = Bar.class.getSimpleName();
 
@@ -48,8 +47,6 @@ public class Bar extends InputAdapter {
 
     }
 
-
-    @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         Vector3 worldClick = camera.unproject(new Vector3(screenX, screenY, 0));
         if (worldClick.y > position.y && worldClick.y < position.y + dimensions.y) {
@@ -60,9 +57,7 @@ public class Bar extends InputAdapter {
         return true;
     }
 
-
-    @Override
-    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+    public boolean touchUp() {
         if (isTouched) {
             isTouched = false;
             game.setScreen(new PlayScreen(game));

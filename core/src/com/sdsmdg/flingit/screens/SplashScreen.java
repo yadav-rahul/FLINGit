@@ -74,7 +74,6 @@ public class SplashScreen implements Screen {
         groupLogo.draw(spriteBatch);
         spriteBatch.end();
         if (System.currentTimeMillis() >= time + 5000) {
-            this.dispose();
             game.setScreen(new StartScreen(game, assets));
         }
     }

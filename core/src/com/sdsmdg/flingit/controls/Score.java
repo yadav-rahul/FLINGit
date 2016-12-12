@@ -3,6 +3,7 @@ package com.sdsmdg.flingit.controls;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.sdsmdg.flingit.FLINGitGame;
+import com.sdsmdg.flingit.screens.PlayScreen;
 
 /**
  * Created by rahul on 8/12/16.
@@ -15,8 +16,10 @@ public class Score {
     private boolean collide = false;
     private Preferences preferences;
     private FLINGitGame game;
+    private PlayScreen playScreen;
 
-    public Score(FLINGitGame game) {
+    public Score(PlayScreen playScreen, FLINGitGame game) {
+        this.playScreen = playScreen;
         this.game = game;
         score = 0;
         preferences = Gdx.app.getPreferences("UserPreferences");
@@ -58,8 +61,22 @@ public class Score {
         if (score > getHighScore()) {
             updateHighScore();
         }
-        if (getScore() == 10){
+        if (getScore() == 10) {
             game.playServices.unlockAchievementTenPoints();
+        } else if (getScore() == 20) {
+            game.playServices.unlockAchievementTwentyPoints();
+        } else if (getScore() == 50) {
+            game.playServices.unlockAchievementFiftyPoints();
+        } else if (getScore() == 100) {
+            game.playServices.unlockAchievementHundredPoints();
+        }
+
+        if (score % 15 == 0) {
+            playScreen.getCoin().getRandomPosition();
+            playScreen.getCoin().setRenderCoin(1, true);
+        } else if (score % 5 == 0) {
+            playScreen.getCoin().getRandomPosition();
+            playScreen.getCoin().setRenderCoin(0, true);
         }
     }
 
@@ -68,6 +85,7 @@ public class Score {
     }
 
     private void updateHighScore() {
+        game.playServices.submitScore(getScore());
         preferences.putInteger("highscore", getScore());
         preferences.flush();
     }

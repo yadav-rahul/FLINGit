@@ -16,6 +16,7 @@ import com.sdsmdg.flingit.constants.Constants;
 import com.sdsmdg.flingit.controls.Score;
 import com.sdsmdg.flingit.sprites.Block;
 import com.sdsmdg.flingit.sprites.Body;
+import com.sdsmdg.flingit.sprites.Coin;
 
 /**
  * Created by rahul on 6/12/16.
@@ -43,10 +44,11 @@ public class PlayScreen implements Screen {
     private Score score;
     private GlyphLayout glyphLayout;
     private SpriteBatch spriteBatch;
+    private Coin coin;
 
     public PlayScreen(FLINGitGame game) {
         glyphLayout = new GlyphLayout();
-        score = new Score(game);
+        score = new Score(this, game);
 
         spriteBatch = new SpriteBatch();
 
@@ -75,6 +77,7 @@ public class PlayScreen implements Screen {
         }
         gameCam.position.x = body.getPosition().x - defaultLeftMarginX + gameCam.viewportWidth / 2;
         guiCam.position.x = body.getPosition().x - defaultLeftMarginX + guiCam.viewportWidth / 2;
+        coin = new Coin(game, gameCam);
     }
 
     @Override
@@ -141,6 +144,13 @@ public class PlayScreen implements Screen {
         spriteBatch.begin();
         renderScore();
         spriteBatch.end();
+
+        spriteBatch.setProjectionMatrix(gameCam.combined);
+        spriteBatch.begin();
+        if (coin.isRenderCoin()) {
+            coin.render(spriteBatch);
+        }
+        spriteBatch.end();
     }
 
     private void renderScore() {
@@ -198,5 +208,9 @@ public class PlayScreen implements Screen {
     public void setAttachCamera(boolean attachCamera, float displacement) {
         gameCamDisplacement = displacement;
         isAttachCamera = attachCamera;
+    }
+
+    public Coin getCoin() {
+        return coin;
     }
 }
