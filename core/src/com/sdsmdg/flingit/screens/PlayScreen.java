@@ -132,10 +132,14 @@ public class PlayScreen implements Screen {
 
         //Gdx.app.log(TAG, "Score : " + score.getScore());
         renderer.begin();
-        body.render(renderer);
         for (Block block : blocks) {
             block.render(game, block, renderer, score.getScore());
         }
+        if (body.getLine().isShow()){
+            body.getLine().render(renderer);
+        }
+        body.render(renderer);
+
         renderer.end();
 
         renderer.setProjectionMatrix(guiCam.combined);

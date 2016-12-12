@@ -37,7 +37,7 @@ public class Body extends InputAdapter {
     private Score score;
     private int currentBlockId = 0;
     private boolean isInAir = false;
-
+    private Line line;
     //Will be used to grow or shrink radius of ball dynamically
     private float radiusMultiplier;
 
@@ -52,7 +52,7 @@ public class Body extends InputAdapter {
         acc = new Vector3(0, ((float) -game.dimensions.getScreenWidth()) / 100, 0);
         init();
         rectBody = new Rectangle(x - baseRadius, y - baseRadius, 2 * baseRadius, 2 * baseRadius);
-
+        line = new Line(this, game.dimensions.getScreenWidth() / 55);
     }
 
     private void init() {
@@ -136,10 +136,12 @@ public class Body extends InputAdapter {
 
         flickDragged = camera.unproject(new Vector3(screenX, screenY, 0));
         if (flickStart != null && flicking) {
+            line.setShow(true);
             flickDraggedVector = new Vector3(flickDragged.x - flickStart.x, flickDragged.y - flickStart.y, 0);
             flickDraggedVector.x = (float) (flickDraggedVector.x * 0.3);
             flickDraggedVector.y = (float) (flickDraggedVector.y * 0.35);
 
+            line.setDraggedVector(flickDraggedVector);
             //Change radius factor according to the length of the dragged Vector
             radiusFactor = 1.0f / (20 + flickDraggedVector.len() / 10);
             init();
@@ -156,6 +158,8 @@ public class Body extends InputAdapter {
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         if (flicking) {
             isInAir = true;
+            //Remove the line
+            line.setShow(false);
             //Fade out the color of body
             bodyColor = Constants.COLOR_PRIMARY_BAR_BLUE;
             flicking = false;
@@ -209,5 +213,13 @@ public class Body extends InputAdapter {
 
     public void setInAir(boolean inAir) {
         isInAir = inAir;
+    }
+
+    public Line getLine() {
+        return line;
+    }
+
+    public Vector3 getFlickDragged() {
+        return flickDragged;
     }
 }
