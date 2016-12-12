@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.sdsmdg.flingit.FLINGitGame;
 import com.sdsmdg.flingit.screens.PlayScreen;
+import com.sdsmdg.flingit.screens.StartScreen;
 
 /**
  * Created by rahul on 8/12/16.
@@ -67,18 +68,26 @@ public class Score {
         }
         if (getScore() == 10) {
             game.playServices.unlockAchievementTenPoints();
+            if (StartScreen.isSound)
+                game.assets.getAchievementSound().play(0.5f);
         } else if (getScore() == 20) {
             game.playServices.unlockAchievementTwentyPoints();
+            if (StartScreen.isSound)
+                game.assets.getAchievementSound().play(0.5f);
         } else if (getScore() == 50) {
             game.playServices.unlockAchievementFiftyPoints();
+            if (StartScreen.isSound)
+                game.assets.getAchievementSound().play(0.5f);
         } else if (getScore() == 100) {
             game.playServices.unlockAchievementHundredPoints();
+            if (StartScreen.isSound)
+                game.assets.getAchievementSound().play(0.5f);
         }
 
         if (score % 15 == 0) {
             playScreen.getCoin().getRandomPosition();
             playScreen.getCoin().setRenderCoin(1, true);
-        } else if (score % 2 == 0) {
+        } else if (score % 5 == 0) {
             playScreen.getCoin().getRandomPosition();
             playScreen.getCoin().setRenderCoin(0, true);
         }

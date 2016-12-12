@@ -5,6 +5,7 @@ package com.sdsmdg.flingit.constants;
  */
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -20,9 +21,19 @@ public class Assets {
             soundOnTexture, soundOffTexture, silverCoinTexture, goldCoinTexture;
     private Sprite groupLogoSprite, aboutUsSprite, leaderboardSprite, achievementSprite,
             soundOnSprite, soundOffSprite, silverCoinSprite, goldCoinSprite;
+    private Sound flingSound, dieSound, achievementSound, coinSound, pipeLandSound;
 
     public Assets(FLINGitGame game) {
         this.game = game;
+    }
+
+    public void loadSounds(){
+        flingSound = Gdx.audio.newSound(Gdx.files.internal("throw.ogg"));
+        dieSound = Gdx.audio.newSound(Gdx.files.internal("dieSound.mp3"));
+        achievementSound = Gdx.audio.newSound(Gdx.files.internal("achievement.wav"));
+        coinSound = Gdx.audio.newSound(Gdx.files.internal("coinCollide.mp3"));
+        pipeLandSound = Gdx.audio.newSound(Gdx.files.internal("land.mp3"));
+
     }
 
     private BitmapFont loadFont(double ratio) {
@@ -132,6 +143,13 @@ public class Assets {
         bitmapSmallFont.dispose();
         bitmapMediumFont.dispose();
         bitmapLargeFont.dispose();
+
+        //disposing Sounds
+        flingSound.dispose();
+        coinSound.dispose();
+        achievementSound.dispose();
+        pipeLandSound.dispose();
+        dieSound.dispose();
     }
 
     public BitmapFont getBitmapTitleFont() {
@@ -168,5 +186,25 @@ public class Assets {
 
     public Sprite getGoldCoinSprite() {
         return goldCoinSprite;
+    }
+
+    public Sound getFlingSound() {
+        return flingSound;
+    }
+
+    public Sound getDieSound() {
+        return dieSound;
+    }
+
+    public Sound getAchievementSound() {
+        return achievementSound;
+    }
+
+    public Sound getCoinSound() {
+        return coinSound;
+    }
+
+    public Sound getPipeLandSound() {
+        return pipeLandSound;
     }
 }

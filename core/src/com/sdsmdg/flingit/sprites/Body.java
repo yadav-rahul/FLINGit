@@ -10,6 +10,7 @@ import com.sdsmdg.flingit.FLINGitGame;
 import com.sdsmdg.flingit.constants.Constants;
 import com.sdsmdg.flingit.controls.Score;
 import com.sdsmdg.flingit.screens.PlayScreen;
+import com.sdsmdg.flingit.screens.StartScreen;
 
 /**
  * Created by rahul on 6/12/16.
@@ -87,19 +88,25 @@ public class Body extends InputAdapter {
 
     private void collideWithWalls(float radius, float viewportWidth, float viewportHeight) {
         if (position.x < camera.position.x - (camera.viewportWidth / 2)) {
+            if (StartScreen.isSound) {
+                game.assets.getDieSound().play(0.5f);
+            }
             game.setScreen(new PlayScreen(game));
-        }
-        if (position.x > camera.position.x + (camera.viewportWidth / 2)) {
+        } else if (position.x > camera.position.x + (camera.viewportWidth / 2)) {
+            if (StartScreen.isSound) {
+                game.assets.getDieSound().play(0.5f);
+            }
             game.setScreen(new PlayScreen(game));
-        }
-        if (position.y - radius < 0) {
+        } else if (position.y - radius < 0) {
             position.y = radius;
             velocity.y = 0;
             velocity.x = 0;
             isUpdate = false;
+            if (StartScreen.isSound) {
+                game.assets.getDieSound().play(0.5f);
+            }
             game.setScreen(new PlayScreen(game));
-        }
-        if (position.y + radius > viewportHeight) {
+        } else if (position.y + radius > viewportHeight) {
             //TODO Do something when it goes above the certain height.
         }
     }
@@ -157,6 +164,9 @@ public class Body extends InputAdapter {
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         if (flicking) {
+            if (StartScreen.isSound) {
+                game.assets.getFlingSound().play(0.5f);
+            }
             isInAir = true;
             //Remove the line
             line.setShow(false);

@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.sdsmdg.flingit.FLINGitGame;
 import com.sdsmdg.flingit.controls.Score;
+import com.sdsmdg.flingit.screens.StartScreen;
 
 import java.util.Random;
 
@@ -75,8 +76,11 @@ public class Coin {
     }
 
     private void detectCollision() {
-        if (coinRect.overlaps(body.getRectBody())){
+        if (coinRect.overlaps(body.getRectBody())) {
             //Remove coin and increase respective coin count by one
+            if (StartScreen.isSound) {
+                game.assets.getCoinSound().play(0.5f);
+            }
             isRenderCoin = false;
             score.increaseCoinCount(flag);
         }

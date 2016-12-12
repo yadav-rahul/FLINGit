@@ -30,9 +30,11 @@ public class StartScreen extends InputAdapter implements Screen {
     private int width, height;
     private Bar bar;
     private GlyphLayout glyphLayout;
-    private Sprite aboutUs, leaderboard, achievement, soundOn, soundOff;
+    public static boolean isSound;
+    private Sprite aboutUs, leaderboard, achievement, soundOn, soundOff, sound;
 
     public StartScreen(FLINGitGame game, Assets assets) {
+        isSound = true;
         this.assets = assets;
         this.game = game;
 
@@ -69,7 +71,7 @@ public class StartScreen extends InputAdapter implements Screen {
         soundOff = assets.getSoundOffSprite();
         soundOff.setSize(width / 10, width / 10);
         soundOff.setPosition(width / 20, height - width / 30 - soundOn.getHeight());
-
+        sound = soundOn;
         Gdx.input.setInputProcessor(this);
     }
 
@@ -87,7 +89,7 @@ public class StartScreen extends InputAdapter implements Screen {
 
         renderer.end();
         spriteBatch.begin();
-        soundOn.draw(spriteBatch);
+        sound.draw(spriteBatch);
         achievement.draw(spriteBatch);
         leaderboard.draw(spriteBatch);
         aboutUs.draw(spriteBatch);
@@ -111,8 +113,16 @@ public class StartScreen extends InputAdapter implements Screen {
 
     }
 
-    public void turnOffSound() {
-        soundOn = soundOff;
+    private void changeSound() {
+        if (isSound){
+            //change sound icon as well as turn of sound
+            isSound = false;
+            sound = soundOff;
+        }
+        else {
+            isSound = true;
+            sound = soundOn;
+        }
     }
 
     @Override
@@ -123,7 +133,7 @@ public class StartScreen extends InputAdapter implements Screen {
         if (worldClick.y > (height - (4 * width / 30))) {
             if (worldClick.x > width / 20 && worldClick.x < 3 * width / 20) {
                 //Sound button clicked
-                turnOffSound();
+                changeSound();
 
 
             } else if (worldClick.x > 6 * width / 20 && worldClick.x < 4 * width / 10) {
@@ -141,7 +151,6 @@ public class StartScreen extends InputAdapter implements Screen {
         bar.touchDown(screenX, screenY, pointer, button);
         return true;
     }
-
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {

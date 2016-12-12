@@ -9,6 +9,7 @@ import com.sdsmdg.flingit.FLINGitGame;
 import com.sdsmdg.flingit.constants.Constants;
 import com.sdsmdg.flingit.controls.Score;
 import com.sdsmdg.flingit.screens.PlayScreen;
+import com.sdsmdg.flingit.screens.StartScreen;
 
 /**
  * Created by rahul on 7/12/16.
@@ -26,8 +27,10 @@ public class Block {
     private OrthographicCamera camera;
     private Body body;
     private Array<Vector3> paramsBlockRecord;
+    private FLINGitGame game;
 
     public Block(PlayScreen playScreen, OrthographicCamera camera, Body body, int id, int x, int width, int height, FLINGitGame game) {
+        this.game = game;
         this.playScreen = playScreen;
         this.paramsBlockRecord = game.dimensions.getParamsBlockRecord();
         this.body = body;
@@ -129,7 +132,10 @@ public class Block {
 
 
         if (rectBody.overlaps(topRectLine) && body.getVelocity().y >= 0) {
+
             if (body.isInAir()) {
+                if (StartScreen.isSound)
+                    game.assets.getPipeLandSound().play(0.5f);
                 body.setInAir(false);
                 playScreen.setUpdateCamera(true);
                 score.setCollide(true, block.getId());
@@ -145,6 +151,9 @@ public class Block {
 
             return false;
         } else if (rectBody.overlaps(bottomRectBlock) || rectBody.overlaps(topRectBlock)) {
+            if (StartScreen.isSound) {
+                game.assets.getDieSound().play(0.5f);
+            }
             playScreen.setUpdateCamera(false);
             return true;
         }

@@ -57,6 +57,7 @@ public class SplashScreen implements Screen {
                     public void run() {
                         assets.loadGameScreenSprites();
                         assets.loadAllFonts();
+                        assets.loadSounds();
                         Gdx.app.log("TAG", "Time : " + (System.currentTimeMillis() - time)/1000.0 );
                     }
                 });
