@@ -20,6 +20,7 @@ public class Score {
     private Preferences preferences;
     private FLINGitGame game;
     private PlayScreen playScreen;
+    private int gamesPlayed;
 
     public Score(PlayScreen playScreen, FLINGitGame game) {
         this.playScreen = playScreen;
@@ -28,6 +29,26 @@ public class Score {
         silverCoinCount = 0;
         goldCoinCount = 0;
         preferences = Gdx.app.getPreferences("UserPreferences");
+        updateGamesPlayed();
+    }
+
+    private void updateGamesPlayed() {
+        preferences.putInteger("gamesplayed", getGamesPlayed() + 1);
+        preferences.flush();
+
+        if (getGamesPlayed() == 2) {
+            game.playServices.unlockAchievementTwoGames();
+            if (StartScreen.isSound)
+                game.assets.getAchievementSound().play(0.5f);
+        } else if (getGamesPlayed() == 100) {
+            game.playServices.unlockAchievementHundredGames();
+            if (StartScreen.isSound)
+                game.assets.getAchievementSound().play(0.5f);
+        }
+    }
+
+    private int getGamesPlayed() {
+        return preferences.getInteger("gamesplayed");
     }
 
     public void updateScore() {
@@ -82,6 +103,10 @@ public class Score {
             game.playServices.unlockAchievementHundredPoints();
             if (StartScreen.isSound)
                 game.assets.getAchievementSound().play(0.5f);
+        } else if (getScore() == 1000) {
+            game.playServices.unlockAchievementImpossible();
+            if (StartScreen.isSound)
+                game.assets.getAchievementSound().play(0.5f);
         }
 
         if (score % 15 == 0) {
@@ -91,6 +116,7 @@ public class Score {
             playScreen.getCoin().getRandomPosition();
             playScreen.getCoin().setRenderCoin(0, true);
         }
+
     }
 
     public int getHighScore() {
@@ -110,6 +136,24 @@ public class Score {
             preferences.putInteger("goldcoincount", getGoldCoinCount() + 1);
         }
         preferences.flush();
+
+        if (getSilverCoinCount() == 10) {
+            game.playServices.unlockAchievementTenSilverCoins();
+            if (StartScreen.isSound)
+                game.assets.getAchievementSound().play(0.5f);
+        } else if (getGoldCoinCount() == 5) {
+            game.playServices.unlockAchievementFiveGoldCoins();
+            if (StartScreen.isSound)
+                game.assets.getAchievementSound().play(0.5f);
+        } else if (getGoldCoinCount() == 25) {
+            game.playServices.unlockAchievementTwentyFiveGoldCoins();
+            if (StartScreen.isSound)
+                game.assets.getAchievementSound().play(0.5f);
+        } else if (getSilverCoinCount() == 100) {
+            game.playServices.unlockAchievementHundredSilverCoins();
+            if (StartScreen.isSound)
+                game.assets.getAchievementSound().play(0.5f);
+        }
     }
 
     public void setInitiated(boolean initiated) {

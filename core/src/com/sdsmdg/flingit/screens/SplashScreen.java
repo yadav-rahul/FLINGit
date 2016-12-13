@@ -23,6 +23,7 @@ public class SplashScreen implements Screen {
     private Assets assets;
     private Thread thread;
 
+
     public SplashScreen(FLINGitGame game, Assets assets) {
         this.assets = assets;
         this.game = game;

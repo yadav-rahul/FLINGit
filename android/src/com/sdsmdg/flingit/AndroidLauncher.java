@@ -107,7 +107,7 @@ public class AndroidLauncher extends AndroidApplication implements PlayServices,
     public void unlockAchievementTwoGames() {
         if (gameHelper.isSignedIn())
             Games.Achievements.unlock(gameHelper.getApiClient(),
-                    getString(R.string.achievement_2_games));
+                    getString(R.string.achievement_play_2_games));
     }
 
     @Override
@@ -136,6 +136,48 @@ public class AndroidLauncher extends AndroidApplication implements PlayServices,
         if (gameHelper.isSignedIn())
             Games.Achievements.unlock(gameHelper.getApiClient(),
                     getString(R.string.achievement_100_points));
+    }
+
+    @Override
+    public void unlockAchievementTenSilverCoins() {
+        if (gameHelper.isSignedIn())
+            Games.Achievements.unlock(gameHelper.getApiClient(),
+                    getString(R.string.achievement_10_silver_coins));
+    }
+
+    @Override
+    public void unlockAchievementHundredGames() {
+        if (gameHelper.isSignedIn())
+            Games.Achievements.unlock(gameHelper.getApiClient(),
+                    getString(R.string.achievement_play_100_games));
+    }
+
+    @Override
+    public void unlockAchievementFiveGoldCoins() {
+        if (gameHelper.isSignedIn())
+            Games.Achievements.unlock(gameHelper.getApiClient(),
+                    getString(R.string.achievement_5_gold_coins));
+    }
+
+    @Override
+    public void unlockAchievementTwentyFiveGoldCoins() {
+        if (gameHelper.isSignedIn())
+            Games.Achievements.unlock(gameHelper.getApiClient(),
+                    getString(R.string.achievement_25_gold_coins));
+    }
+
+    @Override
+    public void unlockAchievementHundredSilverCoins() {
+        if (gameHelper.isSignedIn())
+            Games.Achievements.unlock(gameHelper.getApiClient(),
+                    getString(R.string.achievement_100_silver_coins));
+    }
+
+    @Override
+    public void unlockAchievementImpossible() {
+        if (gameHelper.isSignedIn())
+            Games.Achievements.unlock(gameHelper.getApiClient(),
+                    getString(R.string.achievement_impossible));
     }
 
     @Override
@@ -191,7 +233,7 @@ public class AndroidLauncher extends AndroidApplication implements PlayServices,
     public void onBackPressed() {
         count++;
         if (count == 1) {
-            Toast.makeText(this, "Press once again to exit", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Press once again to exit", Toast.LENGTH_SHORT).show();
         } else if (count == 2) {
             count = 0;
             super.onBackPressed();

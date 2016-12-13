@@ -11,6 +11,12 @@ public interface PlayServices {
      void unlockAchievementFiftyPoints();
      void unlockAchievementHundredPoints();
 
+     void unlockAchievementTenSilverCoins();
+     void unlockAchievementHundredGames();
+     void unlockAchievementFiveGoldCoins();
+     void unlockAchievementTwentyFiveGoldCoins();
+     void unlockAchievementHundredSilverCoins();
+     void unlockAchievementImpossible();
      void submitScore(int highScore);
      void showAchievement();
      void showScore();
