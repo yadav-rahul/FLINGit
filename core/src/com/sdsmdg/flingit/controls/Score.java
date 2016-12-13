@@ -87,23 +87,23 @@ public class Score {
         if (score > getHighScore()) {
             updateHighScore();
         }
-        if (getScore() == 10) {
+        if (getHighScore() == 10) {
             game.playServices.unlockAchievementTenPoints();
             if (StartScreen.isSound)
                 game.assets.getAchievementSound().play(0.5f);
-        } else if (getScore() == 20) {
+        } else if (getHighScore() == 20) {
             game.playServices.unlockAchievementTwentyPoints();
             if (StartScreen.isSound)
                 game.assets.getAchievementSound().play(0.5f);
-        } else if (getScore() == 50) {
+        } else if (getHighScore() == 50) {
             game.playServices.unlockAchievementFiftyPoints();
             if (StartScreen.isSound)
                 game.assets.getAchievementSound().play(0.5f);
-        } else if (getScore() == 100) {
+        } else if (getHighScore() == 100) {
             game.playServices.unlockAchievementHundredPoints();
             if (StartScreen.isSound)
                 game.assets.getAchievementSound().play(0.5f);
-        } else if (getScore() == 1000) {
+        } else if (getHighScore() == 1000) {
             game.playServices.unlockAchievementImpossible();
             if (StartScreen.isSound)
                 game.assets.getAchievementSound().play(0.5f);
