@@ -41,9 +41,12 @@ public class Body extends InputAdapter {
     private Line line;
     //Will be used to grow or shrink radius of ball dynamically
     private float radiusMultiplier;
+    private ShapeRenderer renderer;
+    private GameOverBar gameOverBar;
 
-    public Body(FLINGitGame flinGitGame, PlayScreen playScreen, Score score, OrthographicCamera camera, int x, int y) {
-
+    public Body(FLINGitGame flinGitGame, PlayScreen playScreen, GameOverBar gameOverBar,
+                Score score, OrthographicCamera camera, int x, int y) {
+        this.gameOverBar = gameOverBar;
         this.score = score;
         this.playScreen = playScreen;
         this.camera = camera;
@@ -88,35 +91,33 @@ public class Body extends InputAdapter {
 
     private void collideWithWalls(float radius, float viewportWidth, float viewportHeight) {
         if (position.x < camera.position.x - (camera.viewportWidth / 2)) {
-            if (StartScreen.isSound) {
-                game.assets.getDieSound().play(0.5f);
-            }
-            game.setScreen(new PlayScreen(game));
+            gameOver();
         } else if (position.x > camera.position.x + (camera.viewportWidth / 2)) {
-            if (StartScreen.isSound) {
-                game.assets.getDieSound().play(0.5f);
-            }
-            game.setScreen(new PlayScreen(game));
+            gameOver();
         } else if (position.y - radius < 0) {
-            position.y = radius;
-            velocity.y = 0;
-            velocity.x = 0;
-            isUpdate = false;
-            if (StartScreen.isSound) {
-                game.assets.getDieSound().play(0.5f);
-            }
-            game.setScreen(new PlayScreen(game));
+            gameOver();
+
+            //  game.setScreen(new PlayScreen(game));
         } else if (position.y + radius > viewportHeight) {
             //TODO Do something when it goes above the certain height.
         }
     }
 
+    private void gameOver() {
+        if ((StartScreen.isSound) && (!playScreen.isGameOver())) {
+            game.assets.getDieSound().play(0.5f);
+        }
+        playScreen.setGameOver(true);
+        isUpdate = false;
+    }
+
     public void render(ShapeRenderer renderer) {
-
-        renderer.set(ShapeRenderer.ShapeType.Filled);
-        renderer.setColor(bodyColor);
-        renderer.circle(position.x, position.y, baseRadius * radiusMultiplier);
-
+        this.renderer = renderer;
+        if (!playScreen.isGameOver()) {
+            renderer.set(ShapeRenderer.ShapeType.Filled);
+            renderer.setColor(bodyColor);
+            renderer.circle(position.x, position.y, baseRadius * radiusMultiplier);
+        }
     }
 
     @Override
@@ -126,6 +127,9 @@ public class Body extends InputAdapter {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        if (playScreen.isGameOver()) {
+            gameOverBar.touchDown(screenX, screenY, pointer, button);
+        }
         Vector3 worldClick = camera.unproject(new Vector3(screenX, screenY, 0));
         if (worldClick.dst(position) < baseRadius * radiusMultiplier) {
             flicking = true;

@@ -15,25 +15,25 @@ import com.sdsmdg.flingit.FLINGitGame;
 
 public class Assets {
 
-    private BitmapFont bitmapSmallFont, bitmapMediumFont, bitmapLargeFont, bitmapTitleFont;
+    private BitmapFont bitmapSmallFont, bitmapTinyFont, bitmapTitleFont;
     private FLINGitGame game;
     private Texture groupLogoTexture, aboutUsTexture, leaderboardTexture, achievementTexture,
             soundOnTexture, soundOffTexture, silverCoinTexture, goldCoinTexture;
     private Sprite groupLogoSprite, aboutUsSprite, leaderboardSprite, achievementSprite,
             soundOnSprite, soundOffSprite, silverCoinSprite, goldCoinSprite;
-    private Sound flingSound, dieSound, achievementSound, coinSound, pipeLandSound;
+    private Sound flingSound, dieSound, achievementSound, coinSound, pipeLandSound, pressSound;
 
     public Assets(FLINGitGame game) {
         this.game = game;
     }
 
-    public void loadSounds(){
+    public void loadSounds() {
         flingSound = Gdx.audio.newSound(Gdx.files.internal("throw.ogg"));
         dieSound = Gdx.audio.newSound(Gdx.files.internal("dieSound.mp3"));
         achievementSound = Gdx.audio.newSound(Gdx.files.internal("achievement.wav"));
         coinSound = Gdx.audio.newSound(Gdx.files.internal("coinCollide.mp3"));
         pipeLandSound = Gdx.audio.newSound(Gdx.files.internal("land.mp3"));
-
+        pressSound = Gdx.audio.newSound(Gdx.files.internal("press.ogg"));
     }
 
     private BitmapFont loadFont(double ratio) {
@@ -98,8 +98,7 @@ public class Assets {
     public void loadAllFonts() {
         setBitmapTitleFont();
         setBitmapSmallFont();
-        setBitmapMediumFont();
-        setBitmapLargeFont();
+        setbitmapTinyFont();
     }
 
     public BitmapFont getBitmapSmallFont() {
@@ -110,21 +109,14 @@ public class Assets {
         bitmapSmallFont = loadFont(Constants.RATIO_SMALL);
     }
 
-    public BitmapFont getBitmapMediumFont() {
-        return bitmapMediumFont;
+    public BitmapFont getbitmapTinyFont() {
+        return bitmapTinyFont;
     }
 
-    private void setBitmapMediumFont() {
-        bitmapMediumFont = loadFont(Constants.RATIO_MEDIUM);
+    private void setbitmapTinyFont() {
+        bitmapTinyFont = loadFont(Constants.RATIO_TINY);
     }
-
-    public BitmapFont getBitmapLargeFont() {
-        return bitmapLargeFont;
-    }
-
-    private void setBitmapLargeFont() {
-        bitmapLargeFont = loadFont(Constants.RATIO_LARGE);
-    }
+    
 
     public Sprite getGroupLogoSprite() {
         return groupLogoSprite;
@@ -141,8 +133,7 @@ public class Assets {
 
         //disposing fonts
         bitmapSmallFont.dispose();
-        bitmapMediumFont.dispose();
-        bitmapLargeFont.dispose();
+        bitmapTinyFont.dispose();
 
         //disposing Sounds
         flingSound.dispose();
@@ -150,6 +141,7 @@ public class Assets {
         achievementSound.dispose();
         pipeLandSound.dispose();
         dieSound.dispose();
+        pressSound.dispose();
     }
 
     public BitmapFont getBitmapTitleFont() {
@@ -206,5 +198,9 @@ public class Assets {
 
     public Sound getPipeLandSound() {
         return pipeLandSound;
+    }
+
+    public Sound getPressSound() {
+        return pressSound;
     }
 }

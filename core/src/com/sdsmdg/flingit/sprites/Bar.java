@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.sdsmdg.flingit.FLINGitGame;
 import com.sdsmdg.flingit.constants.Constants;
 import com.sdsmdg.flingit.screens.PlayScreen;
+import com.sdsmdg.flingit.screens.StartScreen;
 
 /**
  * Created by rahul on 11/12/16.
@@ -25,7 +26,7 @@ public class Bar {
     private Color barPrimaryColor = Constants.COLOR_PRIMARY_BAR_BLUE;
     private Color barSecondaryColor = Constants.COLOR_SECONDARY_BAR_BLUE;
 
-    public Bar(FLINGitGame game, int x, int y, int width, int height, OrthographicCamera camera) {
+    public Bar(FLINGitGame game, float x, int y, int width, int height, OrthographicCamera camera) {
 
         this.game = game;
         this.camera = camera;
@@ -39,10 +40,14 @@ public class Bar {
         return (isTouched ? barSecondaryColor : barPrimaryColor);
     }
 
-    public void render(ShapeRenderer renderer) {
+    public void render(ShapeRenderer renderer, int flag) {
 
         renderer.set(ShapeRenderer.ShapeType.Filled);
-        renderer.setColor(chooseColor());
+        if (flag == 0){
+            renderer.setColor(chooseColor());
+        }else if (flag == 1){
+            renderer.setColor(Constants.COLOR_DEFAULT_BACKGROUND);
+        }
         renderer.rect(position.x, position.y, dimensions.x, dimensions.y);
 
     }
@@ -50,8 +55,9 @@ public class Bar {
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         Vector3 worldClick = camera.unproject(new Vector3(screenX, screenY, 0));
         if (worldClick.y > position.y && worldClick.y < position.y + dimensions.y) {
+            if (StartScreen.isSound)
+                game.assets.getPressSound().play(0.5f);
             isTouched = true;
-
         }
 
         return true;

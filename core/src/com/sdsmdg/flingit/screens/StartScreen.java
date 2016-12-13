@@ -85,7 +85,7 @@ public class StartScreen extends InputAdapter implements Screen {
 
 
         renderer.begin();
-        bar.render(renderer);
+        bar.render(renderer, 0);
 
         renderer.end();
         spriteBatch.begin();
@@ -109,17 +109,14 @@ public class StartScreen extends InputAdapter implements Screen {
         float layoutWidth = glyphLayout.width;
         float layoutHeight = glyphLayout.height;
         font.draw(spriteBatch, text, x - layoutWidth / 2, y + layoutHeight / 2);
-
-
     }
 
     private void changeSound() {
-        if (isSound){
+        if (isSound) {
             //change sound icon as well as turn of sound
             isSound = false;
             sound = soundOff;
-        }
-        else {
+        } else {
             isSound = true;
             sound = soundOn;
         }
@@ -133,17 +130,23 @@ public class StartScreen extends InputAdapter implements Screen {
         if (worldClick.y > (height - (4 * width / 30))) {
             if (worldClick.x > width / 20 && worldClick.x < 3 * width / 20) {
                 //Sound button clicked
+                if (isSound)
+                    game.assets.getPressSound().play(0.5f);
                 changeSound();
-
-
             } else if (worldClick.x > 6 * width / 20 && worldClick.x < 4 * width / 10) {
                 //achievement button clicked
+                if (isSound)
+                    game.assets.getPressSound().play(0.5f);
                 game.playServices.showAchievement();
             } else if (worldClick.x > 55 * width / 100 && worldClick.x < 65 * width / 100) {
                 //leaderboard button clicked
+                if (isSound)
+                    game.assets.getPressSound().play(0.5f);
                 game.playServices.showScore();
             } else if (worldClick.x > 8 * width / 10 && worldClick.x < 9 * width / 10) {
                 //aboutUs Button Clicked
+                if (isSound)
+                    game.assets.getPressSound().play(0.5f);
                 game.aboutUs.onClick();
             }
         }

@@ -11,7 +11,6 @@ public class Constants {
 
     public static final double RATIO_TINY = 0.10;
     public static final double RATIO_SMALL = 0.12;
-    public static final double RATIO_MEDIUM = 0.2;
     public static final double RATIO_LARGE = 0.25;
 
     public static final float RADIUS_FACTOR = 20;

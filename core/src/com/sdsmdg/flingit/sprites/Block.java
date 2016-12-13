@@ -28,6 +28,7 @@ public class Block {
     private Body body;
     private Array<Vector3> paramsBlockRecord;
     private FLINGitGame game;
+    private ShapeRenderer renderer;
 
     public Block(PlayScreen playScreen, OrthographicCamera camera, Body body, int id, int x, int width, int height, FLINGitGame game) {
         this.game = game;
@@ -52,7 +53,7 @@ public class Block {
     }
 
     public void render(FLINGitGame game, Block block, ShapeRenderer renderer, int score) {
-
+        this.renderer = renderer;
         switch (body.getCurrentBlockId()) {
             case 0: {
                 //render only one block
@@ -91,11 +92,14 @@ public class Block {
     }
 
     private void renderBlocks(ShapeRenderer renderer) {
-        renderer.set(ShapeRenderer.ShapeType.Filled);
-        renderer.setColor(Constants.COLOR_BOTTOM);
-        renderer.rect(paramsBottomBlock.x, 0, paramsBottomBlock.y, paramsBottomBlock.z);
-        renderer.setColor(Constants.COLOR_TOP);
-        renderer.rect(paramsTopBlock.x, paramsBottomBlock.z, paramsTopBlock.y, paramsTopBlock.z);
+
+        if (!playScreen.isGameOver()) {
+            renderer.set(ShapeRenderer.ShapeType.Filled);
+            renderer.setColor(Constants.COLOR_BOTTOM);
+            renderer.rect(paramsBottomBlock.x, 0, paramsBottomBlock.y, paramsBottomBlock.z);
+            renderer.setColor(Constants.COLOR_TOP);
+            renderer.rect(paramsTopBlock.x, paramsBottomBlock.z, paramsTopBlock.y, paramsTopBlock.z);
+        }
     }
 
     public void reposition(int x, int width, int height) {
@@ -151,10 +155,12 @@ public class Block {
 
             return false;
         } else if (rectBody.overlaps(bottomRectBlock) || rectBody.overlaps(topRectBlock)) {
-            if (StartScreen.isSound) {
+            if (StartScreen.isSound && (!playScreen.isGameOver())) {
                 game.assets.getDieSound().play(0.5f);
             }
-            playScreen.setUpdateCamera(false);
+
+            playScreen.setGameOver(true);
+            body.setUpdate(false);
             return true;
         }
         return false;

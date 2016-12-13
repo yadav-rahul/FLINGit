@@ -17,6 +17,7 @@ import com.sdsmdg.flingit.controls.Score;
 import com.sdsmdg.flingit.sprites.Block;
 import com.sdsmdg.flingit.sprites.Body;
 import com.sdsmdg.flingit.sprites.Coin;
+import com.sdsmdg.flingit.sprites.GameOverBar;
 
 /**
  * Created by rahul on 6/12/16.
@@ -45,6 +46,8 @@ public class PlayScreen implements Screen {
     private GlyphLayout glyphLayout;
     private SpriteBatch spriteBatch;
     private Coin coin;
+    private GameOverBar gameOverBar;
+    private boolean isGameOver = false;
 
     public PlayScreen(FLINGitGame game) {
         glyphLayout = new GlyphLayout();
@@ -64,7 +67,8 @@ public class PlayScreen implements Screen {
         defaultLeftMarginX = game.dimensions.getScreenWidth() / 7;
         defaultLeftMarginY = game.dimensions.getScreenHeight() / 3;
 
-        body = new Body(game, this, score, gameCam, defaultLeftMarginX, defaultLeftMarginY);
+        gameOverBar = new GameOverBar(game, gameCam);
+        body = new Body(game, this, gameOverBar, score, gameCam, defaultLeftMarginX, defaultLeftMarginY);
         Gdx.app.log(TAG, "Width : " + game.dimensions.getScreenWidth() + "\nHeight : " +
                 game.dimensions.getScreenHeight());
         Gdx.input.setInputProcessor(body);
@@ -78,6 +82,7 @@ public class PlayScreen implements Screen {
         gameCam.position.x = body.getPosition().x - defaultLeftMarginX + gameCam.viewportWidth / 2;
         guiCam.position.x = body.getPosition().x - defaultLeftMarginX + guiCam.viewportWidth / 2;
         coin = new Coin(game, gameCam, score);
+
     }
 
     @Override
@@ -118,19 +123,11 @@ public class PlayScreen implements Screen {
         body.update(delta);
         score.updateScore();
         tempBlockNumber = 0;
-        for (Block block : blocks) {
-            if (gameCam.position.x - (gameCam.viewportWidth / 2) > block.getParamsBlock().x + block.getParamsBlock().y) {
-                Vector3 newBlockParams = game.dimensions.getNewBlockParams(tempBlockNumber);
-                block.reposition((int) (newBlockParams.x), (int) (newBlockParams.y), (int) (newBlockParams.z));
-            }
 
-            if (block.collide(block, body, body.getRectBody(), score)) {
-                game.setScreen(new PlayScreen(game));
-            }
-            tempBlockNumber++;
+        spriteBatch.setProjectionMatrix(guiCam.combined);
+        if (isGameOver){
+            getGameOverBar().render(renderer, spriteBatch, score.getHighScore());
         }
-
-        //Gdx.app.log(TAG, "Score : " + score.getScore());
         renderer.begin();
         for (Block block : blocks) {
             block.render(game, block, renderer, score.getScore());
@@ -141,6 +138,18 @@ public class PlayScreen implements Screen {
         body.render(renderer);
 
         renderer.end();
+        for (Block block : blocks) {
+            if (gameCam.position.x - (gameCam.viewportWidth / 2) > block.getParamsBlock().x + block.getParamsBlock().y) {
+                Vector3 newBlockParams = game.dimensions.getNewBlockParams(tempBlockNumber);
+                block.reposition((int) (newBlockParams.x), (int) (newBlockParams.y), (int) (newBlockParams.z));
+            }
+
+            if (block.collide(block, body, body.getRectBody(), score)) {
+
+            }
+            tempBlockNumber++;
+        }
+
 
         renderer.setProjectionMatrix(guiCam.combined);
         renderer.begin();
@@ -273,5 +282,17 @@ public class PlayScreen implements Screen {
 
     public Coin getCoin() {
         return coin;
+    }
+
+    public boolean isGameOver() {
+        return isGameOver;
+    }
+
+    public void setGameOver(boolean gameOver) {
+        isGameOver = gameOver;
+    }
+
+    public GameOverBar getGameOverBar() {
+        return gameOverBar;
     }
 }
