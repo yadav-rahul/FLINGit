@@ -168,7 +168,7 @@ public class PlayScreen implements Screen {
         spriteBatch.setProjectionMatrix(gameCam.combined);
         spriteBatch.begin();
         if (coin.isRenderCoin()) {
-            coin.render(body, spriteBatch);
+            coin.render(this, body, spriteBatch);
         }
         spriteBatch.end();
     }

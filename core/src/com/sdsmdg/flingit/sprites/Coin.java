@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.sdsmdg.flingit.FLINGitGame;
 import com.sdsmdg.flingit.controls.Score;
+import com.sdsmdg.flingit.screens.PlayScreen;
 import com.sdsmdg.flingit.screens.StartScreen;
 
 import java.util.Random;
@@ -52,26 +53,28 @@ public class Coin {
         coinRect = new Rectangle(position.x, position.y, silverCoinSprite.getWidth(), silverCoinSprite.getHeight());
     }
 
-    public void render(Body body, SpriteBatch spriteBatch) {
-        this.body = body;
-        if (isRenderCoin) {
-            if (flag == 0) {
-                //Silver Coin
+    public void render(PlayScreen playScreen, Body body, SpriteBatch spriteBatch) {
+        if (!playScreen.isGameOver()) {
+            this.body = body;
+            if (isRenderCoin) {
+                if (flag == 0) {
+                    //Silver Coin
 
-                silverCoinSprite.setPosition(position.x, position.y);
-                silverCoinSprite.draw(spriteBatch);
-                //Gdx.app.log("TAG", "Silver coin at : " + position.x + " : " + position.y);
-            } else if (flag == 1) {
-                //Gold Coin
-                goldCoinSprite.setPosition(position.x, position.y);
-                goldCoinSprite.draw(spriteBatch);
-                //Gdx.app.log("TAG", "Gold coin at : " + position.x + " : " + position.y);
+                    silverCoinSprite.setPosition(position.x, position.y);
+                    silverCoinSprite.draw(spriteBatch);
+                    //Gdx.app.log("TAG", "Silver coin at : " + position.x + " : " + position.y);
+                } else if (flag == 1) {
+                    //Gold Coin
+                    goldCoinSprite.setPosition(position.x, position.y);
+                    goldCoinSprite.draw(spriteBatch);
+                    //Gdx.app.log("TAG", "Gold coin at : " + position.x + " : " + position.y);
+                }
+                detectCollision();
             }
-            detectCollision();
-        }
-        if (position.x < camera.position.x - (camera.viewportWidth / 2)) {
-            //TODO Do something here
-            isRenderCoin = false;
+            if (position.x < camera.position.x - (camera.viewportWidth / 2)) {
+                //TODO Do something here
+                isRenderCoin = false;
+            }
         }
     }
 
