@@ -14,6 +14,7 @@ import com.badlogic.gdx.utils.Array;
 import com.sdsmdg.flingit.FLINGitGame;
 import com.sdsmdg.flingit.constants.Constants;
 import com.sdsmdg.flingit.controls.Score;
+import com.sdsmdg.flingit.sprites.BlackHole;
 import com.sdsmdg.flingit.sprites.Block;
 import com.sdsmdg.flingit.sprites.Body;
 import com.sdsmdg.flingit.sprites.Coin;
@@ -46,6 +47,7 @@ public class PlayScreen implements Screen {
     private GlyphLayout glyphLayout;
     private SpriteBatch spriteBatch;
     private Coin coin;
+    private BlackHole blackHole;
     private GameOverBar gameOverBar;
     private boolean isGameOver = false;
 
@@ -82,6 +84,7 @@ public class PlayScreen implements Screen {
         gameCam.position.x = body.getPosition().x - defaultLeftMarginX + gameCam.viewportWidth / 2;
         guiCam.position.x = body.getPosition().x - defaultLeftMarginX + guiCam.viewportWidth / 2;
         coin = new Coin(game, gameCam, score);
+        blackHole = new BlackHole(game, gameCam, score);
 
     }
 
@@ -170,6 +173,9 @@ public class PlayScreen implements Screen {
         spriteBatch.begin();
         if (coin.isRenderCoin()) {
             coin.render(this, body, spriteBatch);
+        }
+        if (blackHole.isRenderBlackHole()){
+            blackHole.render(this,body,spriteBatch);
         }
         spriteBatch.end();
     }
@@ -295,5 +301,9 @@ public class PlayScreen implements Screen {
 
     public GameOverBar getGameOverBar() {
         return gameOverBar;
+    }
+
+    public BlackHole getBlackHole() {
+        return blackHole;
     }
 }

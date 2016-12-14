@@ -109,12 +109,15 @@ public class Score {
                 game.assets.getAchievementSound().play(0.5f);
         }
 
-        if (score % 15 == 0) {
+        if (score % 16 == 0) {
             playScreen.getCoin().getRandomPosition();
             playScreen.getCoin().setRenderCoin(1, true);
-        } else if (score % 5 == 0) {
+        } else if (score % 8 == 0) {
             playScreen.getCoin().getRandomPosition();
             playScreen.getCoin().setRenderCoin(0, true);
+        }else if (score % 4 == 0){
+            playScreen.getBlackHole().getRandomPosition();
+            playScreen.getBlackHole().setRenderBlackHole(true);
         }
 
     }

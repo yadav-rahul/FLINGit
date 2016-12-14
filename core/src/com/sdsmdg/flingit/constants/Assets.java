@@ -19,10 +19,10 @@ public class Assets {
     private FLINGitGame game;
     private Texture groupLogoTexture, aboutUsTexture, leaderboardTexture, achievementTexture,
             soundOnTexture, soundOffTexture, silverCoinTexture, goldCoinTexture, arrowDownTexture,
-            arrowDownDarkTexture;
+            arrowDownDarkTexture, blackHoleTexture;
     private Sprite groupLogoSprite, aboutUsSprite, leaderboardSprite, achievementSprite,
             soundOnSprite, soundOffSprite, silverCoinSprite, goldCoinSprite, arrowDownSprite,
-            arrowDownDarkSprite;
+            arrowDownDarkSprite, blackHoleSprite;
     private Sound flingSound, dieSound, achievementSound, coinSound, pipeLandSound, pressSound;
 
     public Assets(FLINGitGame game) {
@@ -103,6 +103,10 @@ public class Assets {
         arrowDownDarkTexture = new Texture(Gdx.files.internal("arrow-down-dark.png"));
         arrowDownDarkTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         arrowDownDarkSprite = new Sprite(arrowDownDarkTexture);
+
+        blackHoleTexture = new Texture(Gdx.files.internal("blackHole.png"));
+        blackHoleTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        blackHoleSprite = new Sprite(blackHoleTexture);
     }
 
     public void loadAllFonts() {
@@ -143,6 +147,8 @@ public class Assets {
         silverCoinTexture.dispose();
         goldCoinTexture.dispose();
         arrowDownTexture.dispose();
+        arrowDownDarkTexture.dispose();
+        blackHoleTexture.dispose();
 
         //disposing fonts
         bitmapSmallFont.dispose();
@@ -223,5 +229,9 @@ public class Assets {
 
     public Sprite getArrowDownDarkSprite() {
         return arrowDownDarkSprite;
+    }
+
+    public Sprite getBlackHoleSprite() {
+        return blackHoleSprite;
     }
 }
