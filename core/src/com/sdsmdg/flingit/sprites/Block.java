@@ -139,8 +139,8 @@ public class Block {
         if (rectBody.overlaps(topRectLine) && body.getVelocity().y >= 0) {
 
             //Set the current position of the block to that position
-            body.getPosition().y = topRectLine.getY() + topRectLine.getHeight() + body.getBaseRadius();
             body.getVelocity().y = 0;
+            body.getPosition().y = topRectLine.getY() + topRectLine.getHeight() + body.getBaseRadius();
             body.getVelocity().x = 0;
 
             if (body.isInAir()) {
@@ -156,6 +156,10 @@ public class Block {
 
             return false;
         } else if (rectBody.overlaps(bottomRectBlock) || rectBody.overlaps(topRectBlock)) {
+            //Set the current position of the block to that position
+            body.getVelocity().y = 0;
+            body.getPosition().y = topRectLine.getY() + topRectLine.getHeight() + body.getBaseRadius();
+            body.getVelocity().x = 0;
             if (StartScreen.isSound && (!playScreen.isGameOver())) {
                 Gdx.input.vibrate(100);
                 game.assets.getDieSound().play(0.5f);

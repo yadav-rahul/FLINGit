@@ -132,9 +132,11 @@ public class PlayScreen implements Screen {
         for (Block block : blocks) {
             block.render(game, block, renderer, score.getScore());
         }
+        renderer.end();
         if (body.getLine().isShow()){
             body.getLine().render(renderer);
         }
+        renderer.begin();
         body.render(renderer);
 
         renderer.end();

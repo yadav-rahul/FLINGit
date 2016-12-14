@@ -1,8 +1,9 @@
 package com.sdsmdg.flingit.sprites;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
-import com.sdsmdg.flingit.constants.Constants;
 
 /**
  * Created by rahul on 12/12/16.
@@ -27,10 +28,13 @@ public class Line {
         if (isShow) {
             initializeGap();
             //drawing straight line
+            renderer.begin();
             renderer.set(ShapeRenderer.ShapeType.Filled);
-            renderer.setColor(Constants.COLOR_DEFAULT_BACKGROUND);
+            Gdx.graphics.getGL20().glEnable(GL20.GL_BLEND);
+            renderer.setColor((float) 66.0 / 255, (float) 66.0 / 255, (float) 100.0 / 255, 0.5f);
             renderer.rectLine(body.getPosition().x, body.getPosition().y, body.getFlickDragged().x,
                     body.getFlickDragged().y, lineWidth);
+            renderer.end();
         }
     }
 

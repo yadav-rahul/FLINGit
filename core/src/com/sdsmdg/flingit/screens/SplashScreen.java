@@ -25,7 +25,8 @@ public class SplashScreen implements Screen {
 
 
     public SplashScreen(FLINGitGame game, Assets assets) {
-        Gdx.app.log("Rahul", "Initial Time : " + (System.currentTimeMillis() )/1000.0 );
+        time = System.currentTimeMillis();
+        // Gdx.app.log("Rahul", "Initial Time : " + (System.currentTimeMillis() )/1000.0 );
         this.assets = assets;
         this.game = game;
         spriteBatch = new SpriteBatch();
@@ -44,7 +45,7 @@ public class SplashScreen implements Screen {
     @Override
     public void show() {
         //Called when this screen becomes the current screen
-        time = System.currentTimeMillis();
+
 
         //load all fonts and remaining sprites to be used in separate thread
 
@@ -60,7 +61,7 @@ public class SplashScreen implements Screen {
                         assets.loadGameScreenSprites();
                         assets.loadAllFonts();
                         assets.loadSounds();
-                        Gdx.app.log("Rahul", "Final Time : " + (System.currentTimeMillis())/1000.0 );
+                        Gdx.app.log("Rahul", "Final Time : " + (System.currentTimeMillis() - time)/1000.0 );
                     }
                 });
             }

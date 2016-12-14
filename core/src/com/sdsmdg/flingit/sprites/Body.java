@@ -57,7 +57,7 @@ public class Body extends InputAdapter {
         acc = new Vector3(0, ((float) -game.dimensions.getScreenWidth()) / 100, 0);
         init();
         rectBody = new Rectangle(x - baseRadius, y - baseRadius, 2 * baseRadius, 2 * baseRadius);
-        line = new Line(this, game.dimensions.getScreenWidth() / 55);
+        line = new Line(this, game.dimensions.getScreenWidth() / 70);
     }
 
     private void init() {
