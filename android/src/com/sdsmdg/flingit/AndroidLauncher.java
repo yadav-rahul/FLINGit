@@ -22,6 +22,7 @@ public class AndroidLauncher extends AndroidApplication implements PlayServices,
     private GameHelper gameHelper;
     private final static int requestCode = 1;
     private int count = 0;
+    private Toast toast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +61,7 @@ public class AndroidLauncher extends AndroidApplication implements PlayServices,
 
         gameHelper.setup(gameHelperListener);
         gameHelper.setMaxAutoSignInAttempts(0);
+        toast = Toast.makeText(this, "Press once again to exit", Toast.LENGTH_SHORT);
     }
 
     @Override
@@ -233,9 +235,10 @@ public class AndroidLauncher extends AndroidApplication implements PlayServices,
     public void onBackPressed() {
         count++;
         if (count == 1) {
-            Toast.makeText(this, "Press once again to exit", Toast.LENGTH_SHORT).show();
+            toast.show();
         } else if (count == 2) {
             count = 0;
+            toast.cancel();
             super.onBackPressed();
         }
 
