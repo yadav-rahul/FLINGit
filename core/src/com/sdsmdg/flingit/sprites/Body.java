@@ -56,7 +56,8 @@ public class Body extends InputAdapter {
         velocity = new Vector3(0, 0, 0);
         acc = new Vector3(0, ((float) -game.dimensions.getScreenWidth()) / 100, 0);
         init();
-        rectBody = new Rectangle(x - baseRadius, y - baseRadius, 2 * baseRadius, 2 * baseRadius);
+        rectBody = new Rectangle(x - baseRadius + baseRadius / 7, y - baseRadius,
+                2 * baseRadius - 2 * baseRadius / 7, 2 * baseRadius);
         line = new Line(this, game.dimensions.getScreenWidth() / 70);
     }
 
@@ -75,7 +76,7 @@ public class Body extends InputAdapter {
 
             //Change this method to set when radius starts changing because then dimensions of rect will
             //also change
-            rectBody.setPosition(position.x - baseRadius, position.y - baseRadius);
+            rectBody.setPosition(position.x - baseRadius+ baseRadius / 7, position.y - baseRadius);
         }
 
 //        Gdx.app.log(TAG, "Position X : " + position.x + " || Position Y : " + position.y +

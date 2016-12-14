@@ -2,6 +2,8 @@ package com.sdsmdg.flingit.sprites;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
@@ -30,6 +32,8 @@ public class Block {
     private Array<Vector3> paramsBlockRecord;
     private FLINGitGame game;
     private ShapeRenderer renderer;
+    private boolean isRenderArrow = true;
+    private Sprite arrowSprite, arrowDarkSprite, arrow;
 
     public Block(PlayScreen playScreen, OrthographicCamera camera, Body body, int id, int x, int width, int height, FLINGitGame game) {
         this.game = game;
@@ -46,6 +50,14 @@ public class Block {
         bottomRectBlock = new Rectangle(x, 0, width, height - topBlockMargin);
         topRectBlock = new Rectangle(x - topBlockMargin, height - topBlockMargin, width + 2 * topBlockMargin, topBlockMargin);
         topRectLine = new Rectangle(x - topBlockMargin, height - (topBlockMargin / 2), width + 2 * topBlockMargin, topBlockMargin / 2);
+
+        arrowSprite = game.assets.getArrowDownSprite();
+        arrowSprite.setSize(3 * topBlockMargin / 2, topBlockMargin);
+
+        arrowDarkSprite = game.assets.getArrowDownDarkSprite();
+        arrowDarkSprite.setSize(3 * topBlockMargin / 2, topBlockMargin);
+
+        arrow = arrowSprite;
     }
 
 
@@ -53,37 +65,37 @@ public class Block {
 
     }
 
-    public void render(FLINGitGame game, Block block, ShapeRenderer renderer, int score) {
+    public void render(SpriteBatch spriteBatch, FLINGitGame game, Block block, ShapeRenderer renderer, int score) {
         this.renderer = renderer;
         switch (body.getCurrentBlockId()) {
             case 0: {
                 //render only one block
                 if (block.getId() == 1) {
-                    renderBlocks(renderer);
+                    renderBlocks(renderer, spriteBatch);
                 }
                 break;
             }
             case 1: {
                 if (block.getId() == 1 || block.getId() == 2) {
-                    renderBlocks(renderer);
+                    renderBlocks(renderer, spriteBatch);
                 } else if (block.getId() == 3 && (paramsBlockRecord.get(2).x < paramsBlockRecord.get(0).x)) {
-                    renderBlocks(renderer);
+                    renderBlocks(renderer, spriteBatch);
                 }
                 break;
             }
             case 2: {
                 if (block.getId() == 2 || block.getId() == 3) {
-                    renderBlocks(renderer);
+                    renderBlocks(renderer, spriteBatch);
                 } else if (block.getId() == 1 && (paramsBlockRecord.get(0).x < paramsBlockRecord.get(1).x)) {
-                    renderBlocks(renderer);
+                    renderBlocks(renderer, spriteBatch);
                 }
                 break;
             }
             case 3: {
                 if (block.getId() == 3 || block.getId() == 1) {
-                    renderBlocks(renderer);
+                    renderBlocks(renderer, spriteBatch);
                 } else if (block.getId() == 2 && (paramsBlockRecord.get(1).x < paramsBlockRecord.get(2).x)) {
-                    renderBlocks(renderer);
+                    renderBlocks(renderer, spriteBatch);
                 }
                 break;
             }
@@ -92,18 +104,30 @@ public class Block {
 
     }
 
-    private void renderBlocks(ShapeRenderer renderer) {
+    private void renderBlocks(ShapeRenderer renderer, SpriteBatch spriteBatch) {
 
         if (!playScreen.isGameOver()) {
+            renderer.begin();
             renderer.set(ShapeRenderer.ShapeType.Filled);
             renderer.setColor(Constants.COLOR_BOTTOM);
             renderer.rect(paramsBottomBlock.x, 0, paramsBottomBlock.y, paramsBottomBlock.z);
             renderer.setColor(Constants.COLOR_TOP);
             renderer.rect(paramsTopBlock.x, paramsBottomBlock.z, paramsTopBlock.y, paramsTopBlock.z);
+            renderer.end();
+
+            arrowSprite.setPosition(paramsBottomBlock.x + paramsBottomBlock.y / 2 - arrowSprite.getWidth() / 2, paramsBottomBlock.z);
+            arrowDarkSprite.setPosition(paramsBottomBlock.x + paramsBottomBlock.y / 2 - arrowDarkSprite.getWidth() / 2, paramsBottomBlock.z);
+            spriteBatch.begin();
+            if (this.isRenderArrow){
+                arrow.draw(spriteBatch);
+            }
+            spriteBatch.end();
         }
     }
 
     public void reposition(int x, int width, int height) {
+        this.isRenderArrow = true;
+        this.setArrow(arrowSprite);
         paramsBottomBlock.set(x, width, height - topBlockMargin);
         paramsTopBlock.set(x - topBlockMargin, width + 2 * topBlockMargin, topBlockMargin);
         bottomRectBlock.set(x, 0, width, height - topBlockMargin);
@@ -150,7 +174,16 @@ public class Block {
                 playScreen.setUpdateCamera(true);
                 score.setCollide(true, block.getId());
                 body.setCurrentBlockId(block.getId());
-                score.updateScore();
+                if (body.getPosition().x > block.getParamsBlock().x + block.getParamsBlock().y / 2 - 3 * topBlockMargin / 4
+                        && body.getPosition().x < block.getParamsBlock().x + block.getParamsBlock().y / 2 + 3 * topBlockMargin / 4){
+                    score.updateScore(4);
+                    block.setArrow(arrowDarkSprite);
+                }else{
+                    //Remove sprite from this block
+                    this.isRenderArrow = false;
+                    score.updateScore(1);
+                }
+
             }
             body.setUpdate(false);
 
@@ -170,5 +203,9 @@ public class Block {
             return true;
         }
         return false;
+    }
+
+    public void setArrow(Sprite arrow) {
+        this.arrow = arrow;
     }
 }

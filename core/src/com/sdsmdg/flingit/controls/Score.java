@@ -51,7 +51,7 @@ public class Score {
         return preferences.getInteger("gamesplayed");
     }
 
-    public void updateScore() {
+    public void updateScore(int count) {
 
         if (initiated && collide) {
 
@@ -59,18 +59,18 @@ public class Score {
             switch (temp) {
                 case 0:
                     if (finalBlockId == 1) {
-                        increaseScore();
+                        increaseScore(count);
                     }
                     break;
                 case 1:
                     if (finalBlockId == 2) {
-                        increaseScore();
+                        increaseScore(count);
                     }
                     break;
 
                 case 2:
                     if (finalBlockId == 3) {
-                        increaseScore();
+                        increaseScore(count);
                     }
                     break;
 
@@ -82,8 +82,8 @@ public class Score {
         }
     }
 
-    private void increaseScore() {
-        score += 1;
+    private void increaseScore(int count) {
+        score += count;
         if (score > getHighScore()) {
             updateHighScore();
         }

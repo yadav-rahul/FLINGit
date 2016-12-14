@@ -121,18 +121,17 @@ public class PlayScreen implements Screen {
         renderer.setProjectionMatrix(gameCam.combined);
 
         body.update(delta);
-        score.updateScore();
         tempBlockNumber = 0;
 
         spriteBatch.setProjectionMatrix(guiCam.combined);
         if (isGameOver){
             getGameOverBar().render(renderer, spriteBatch, score.getHighScore());
         }
-        renderer.begin();
+
+        spriteBatch.setProjectionMatrix(gameCam.combined);
         for (Block block : blocks) {
-            block.render(game, block, renderer, score.getScore());
+            block.render(spriteBatch, game, block, renderer, score.getScore());
         }
-        renderer.end();
         if (body.getLine().isShow()){
             body.getLine().render(renderer);
         }

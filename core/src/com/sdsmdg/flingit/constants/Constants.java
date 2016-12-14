@@ -24,6 +24,8 @@ public class Constants {
     public static final Color COLOR_BOTTOM = Color.OLIVE;
     public static final Color COLOR_TOP = Color.GOLD;
 
+    public static final Color COLOR_CHERRY_RED = toRGB(196, 0, 0);
+
     private static Color toRGB(int r, int g, int b) {
         float RED = r / 255.0f;
         float GREEN = g / 255.0f;

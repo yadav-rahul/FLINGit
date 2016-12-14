@@ -18,9 +18,11 @@ public class Assets {
     private BitmapFont bitmapSmallFont, bitmapTinyFont, bitmapTitleFont;
     private FLINGitGame game;
     private Texture groupLogoTexture, aboutUsTexture, leaderboardTexture, achievementTexture,
-            soundOnTexture, soundOffTexture, silverCoinTexture, goldCoinTexture;
+            soundOnTexture, soundOffTexture, silverCoinTexture, goldCoinTexture, arrowDownTexture,
+            arrowDownDarkTexture;
     private Sprite groupLogoSprite, aboutUsSprite, leaderboardSprite, achievementSprite,
-            soundOnSprite, soundOffSprite, silverCoinSprite, goldCoinSprite;
+            soundOnSprite, soundOffSprite, silverCoinSprite, goldCoinSprite, arrowDownSprite,
+            arrowDownDarkSprite;
     private Sound flingSound, dieSound, achievementSound, coinSound, pipeLandSound, pressSound;
 
     public Assets(FLINGitGame game) {
@@ -93,6 +95,14 @@ public class Assets {
         goldCoinTexture = new Texture(Gdx.files.internal("goldcoin.png"));
         goldCoinTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         goldCoinSprite = new Sprite(goldCoinTexture);
+
+        arrowDownTexture = new Texture(Gdx.files.internal("arrow-down.png"));
+        arrowDownTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        arrowDownSprite = new Sprite(arrowDownTexture);
+
+        arrowDownDarkTexture = new Texture(Gdx.files.internal("arrow-down-dark.png"));
+        arrowDownDarkTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        arrowDownDarkSprite = new Sprite(arrowDownDarkTexture);
     }
 
     public void loadAllFonts() {
@@ -116,7 +126,7 @@ public class Assets {
     private void setbitmapTinyFont() {
         bitmapTinyFont = loadFont(Constants.RATIO_TINY);
     }
-    
+
 
     public Sprite getGroupLogoSprite() {
         return groupLogoSprite;
@@ -130,6 +140,9 @@ public class Assets {
         soundOnTexture.dispose();
         soundOffTexture.dispose();
         achievementTexture.dispose();
+        silverCoinTexture.dispose();
+        goldCoinTexture.dispose();
+        arrowDownTexture.dispose();
 
         //disposing fonts
         bitmapSmallFont.dispose();
@@ -202,5 +215,13 @@ public class Assets {
 
     public Sound getPressSound() {
         return pressSound;
+    }
+
+    public Sprite getArrowDownSprite() {
+        return arrowDownSprite;
+    }
+
+    public Sprite getArrowDownDarkSprite() {
+        return arrowDownDarkSprite;
     }
 }
