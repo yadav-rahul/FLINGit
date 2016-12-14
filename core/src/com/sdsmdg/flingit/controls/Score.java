@@ -38,8 +38,6 @@ public class Score {
 
         if (getGamesPlayed() == 2) {
             game.playServices.unlockAchievementTwoGames();
-            if (StartScreen.isSound)
-                game.assets.getAchievementSound().play(0.5f);
         } else if (getGamesPlayed() == 100) {
             game.playServices.unlockAchievementHundredGames();
             if (StartScreen.isSound)
