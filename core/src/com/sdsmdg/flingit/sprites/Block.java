@@ -1,5 +1,6 @@
 package com.sdsmdg.flingit.sprites;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
@@ -137,6 +138,11 @@ public class Block {
 
         if (rectBody.overlaps(topRectLine) && body.getVelocity().y >= 0) {
 
+            //Set the current position of the block to that position
+            body.getPosition().y = topRectLine.getY() + topRectLine.getHeight() + body.getBaseRadius();
+            body.getVelocity().y = 0;
+            body.getVelocity().x = 0;
+
             if (body.isInAir()) {
                 if (StartScreen.isSound)
                     game.assets.getPipeLandSound().play(0.5f);
@@ -146,16 +152,12 @@ public class Block {
                 body.setCurrentBlockId(block.getId());
                 score.updateScore();
             }
-
-            //Set the current position of the block to that position
-            body.getPosition().y = topRectLine.getY() + topRectLine.getHeight() + body.getBaseRadius();
-            body.getVelocity().y = 0;
-            body.getVelocity().x = 0;
             body.setUpdate(false);
 
             return false;
         } else if (rectBody.overlaps(bottomRectBlock) || rectBody.overlaps(topRectBlock)) {
             if (StartScreen.isSound && (!playScreen.isGameOver())) {
+                Gdx.input.vibrate(100);
                 game.assets.getDieSound().play(0.5f);
             }
 

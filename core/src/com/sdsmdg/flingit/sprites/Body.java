@@ -1,5 +1,6 @@
 package com.sdsmdg.flingit.sprites;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -92,7 +93,7 @@ public class Body extends InputAdapter {
     private void collideWithWalls(float radius, float viewportWidth, float viewportHeight) {
         if (position.x < camera.position.x - (camera.viewportWidth / 2)) {
             gameOver();
-        } else if (position.x > camera.position.x + (camera.viewportWidth / 2)) {
+        } else if (position.x > camera.position.x + (camera.viewportWidth / 2) + baseRadius) {
             gameOver();
         } else if (position.y - radius < 0) {
             gameOver();
@@ -105,6 +106,7 @@ public class Body extends InputAdapter {
 
     private void gameOver() {
         if ((StartScreen.isSound) && (!playScreen.isGameOver())) {
+            Gdx.input.vibrate(100);
             game.assets.getDieSound().play(0.5f);
         }
         playScreen.setGameOver(true);
