@@ -31,6 +31,8 @@ public class BlackHole {
     private Body body;
     private Rectangle blackHoleRect;
     private Score score;
+    private boolean isRadiusZero = false;
+    private int radiusParam = 0;
 
     public BlackHole(FLINGitGame game, OrthographicCamera camera, Score score) {
         this.score = score;
@@ -68,15 +70,29 @@ public class BlackHole {
 
     private void detectCollision(PlayScreen playScreen) {
         if (blackHoleRect.overlaps(body.getRectBody())) {
-            //Remove blackHole and increase respective blackHole count by one
-            if ((StartScreen.isSound) && (!playScreen.isGameOver())) {
-                Gdx.input.vibrate(100);
-                game.assets.getDieSound().play(0.5f);
-            }
-            playScreen.setGameOver(true);
             body.setUpdate(false);
-            isRenderBlackHole = false;
+            //Reduce ball radius gradually to zero
+            body.setRadiusFactor(1.0f / (20 + 3 * radiusParam));
+            body.init();
+            radiusParam += 1;
+            if (body.getBaseRadius() <= 8) {
+                isRadiusZero = true;
+            }
         }
+
+        if (isRadiusZero)
+            gameOver(playScreen);
+    }
+
+    private void gameOver(PlayScreen playScreen) {
+        //Remove blackHole
+        if ((StartScreen.isSound) && (!playScreen.isGameOver())) {
+            Gdx.input.vibrate(100);
+            game.assets.getDieSound().play(0.3f);
+        }
+        playScreen.setGameOver(true);
+        body.setUpdate(false);
+        isRenderBlackHole = false;
     }
 
     public Vector2 getPosition() {

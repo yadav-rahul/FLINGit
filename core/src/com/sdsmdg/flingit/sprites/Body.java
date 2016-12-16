@@ -61,7 +61,7 @@ public class Body extends InputAdapter {
         line = new Line(this, game.dimensions.getScreenWidth() / 70);
     }
 
-    private void init() {
+    public void init() {
         baseRadius = radiusFactor * (game.dimensions.getScreenWidth());
         radiusMultiplier = 1;
     }
@@ -92,23 +92,19 @@ public class Body extends InputAdapter {
     }
 
     private void collideWithWalls(float radius, float viewportWidth, float viewportHeight) {
-        if (position.x < camera.position.x - (camera.viewportWidth / 2)) {
+        if (position.x < camera.position.x - (camera.viewportWidth )) {
             gameOver();
         } else if (position.x > camera.position.x + (camera.viewportWidth / 2) + baseRadius) {
             gameOver();
         } else if (position.y - radius < 0) {
             gameOver();
-
-            //  game.setScreen(new PlayScreen(game));
-        } else if (position.y + radius > viewportHeight) {
-            //TODO Do something when it goes above the certain height.
         }
     }
 
     private void gameOver() {
         if ((StartScreen.isSound) && (!playScreen.isGameOver())) {
             Gdx.input.vibrate(100);
-            game.assets.getDieSound().play(0.5f);
+            game.assets.getDieSound().play(0.3f);
         }
         playScreen.setGameOver(true);
         isUpdate = false;
@@ -172,7 +168,7 @@ public class Body extends InputAdapter {
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         if (flicking) {
             if (StartScreen.isSound) {
-                game.assets.getFlingSound().play(0.5f);
+                game.assets.getFlingSound().play();
             }
             isInAir = true;
             //Remove the line
@@ -238,5 +234,9 @@ public class Body extends InputAdapter {
 
     public Vector3 getFlickDragged() {
         return flickDragged;
+    }
+
+    public void setRadiusFactor(float radiusFactor) {
+        this.radiusFactor = radiusFactor;
     }
 }

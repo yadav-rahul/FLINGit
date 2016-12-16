@@ -34,6 +34,8 @@ public class Block {
     private ShapeRenderer renderer;
     private boolean isRenderArrow = true;
     private Sprite arrowSprite, arrowDarkSprite, arrow;
+    private boolean isRadiusZero = false;
+    private int radiusParam = 0;
 
     public Block(PlayScreen playScreen, OrthographicCamera camera, Body body, int id, int x, int width, int height, FLINGitGame game) {
         this.game = game;
@@ -169,7 +171,7 @@ public class Block {
 
             if (body.isInAir()) {
                 if (StartScreen.isSound)
-                    game.assets.getPipeLandSound().play(0.5f);
+                    game.assets.getPipeLandSound().play(0.3f);
                 body.setInAir(false);
                 playScreen.setUpdateCamera(true);
                 score.setCollide(true, block.getId());
@@ -190,19 +192,29 @@ public class Block {
             return false;
         } else if (rectBody.overlaps(bottomRectBlock) || rectBody.overlaps(topRectBlock)) {
             //Set the current position of the block to that position
-            body.getVelocity().y = 0;
-            body.getPosition().y = topRectLine.getY() + topRectLine.getHeight() + body.getBaseRadius();
-            body.getVelocity().x = 0;
-            if (StartScreen.isSound && (!playScreen.isGameOver())) {
-                Gdx.input.vibrate(100);
-                game.assets.getDieSound().play(0.5f);
+            body.setUpdate(false);
+            //Reduce ball radius gradually to zero
+            body.setRadiusFactor(1.0f / (20 + 5 * radiusParam));
+            body.init();
+            radiusParam += 2;
+            if (body.getBaseRadius() <= 8) {
+                isRadiusZero = true;
             }
 
-            playScreen.setGameOver(true);
-            body.setUpdate(false);
+            if (isRadiusZero)
+                gameOver(playScreen);
             return true;
         }
         return false;
+    }
+    private void gameOver(PlayScreen playScreen) {
+        if (StartScreen.isSound && (!playScreen.isGameOver())) {
+            Gdx.input.vibrate(100);
+            game.assets.getDieSound().play(0.3f);
+        }
+
+        playScreen.setGameOver(true);
+        body.setUpdate(false);
     }
 
     public void setArrow(Sprite arrow) {
