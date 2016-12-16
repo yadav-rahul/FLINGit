@@ -15,6 +15,7 @@ import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.google.android.gms.games.Games;
 import com.google.android.gms.games.GamesActivityResultCodes;
 import com.google.example.games.basegameutils.GameHelper;
+import com.sdsmdg.tastytoast.TastyToast;
 
 public class AndroidLauncher extends AndroidApplication implements PlayServices, AboutUs {
 
@@ -61,7 +62,6 @@ public class AndroidLauncher extends AndroidApplication implements PlayServices,
 
         gameHelper.setup(gameHelperListener);
         gameHelper.setMaxAutoSignInAttempts(0);
-        toast = Toast.makeText(this, "Press once again to exit", Toast.LENGTH_SHORT);
     }
 
     @Override
@@ -235,7 +235,7 @@ public class AndroidLauncher extends AndroidApplication implements PlayServices,
     public void onBackPressed() {
         count++;
         if (count == 1) {
-            toast.show();
+            toast = TastyToast.makeText(this, "Press once again to exit", TastyToast.LENGTH_SHORT, TastyToast.DEFAULT);
         } else if (count == 2) {
             count = 0;
             toast.cancel();
