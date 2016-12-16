@@ -1,1 +1,1 @@
-include 'desktop', 'android', 'ios', 'html', 'core', ':BaseGameUtils'
+include 'desktop', 'android', 'ios', 'html', 'core', ':BaseGameUtils', ':tastytoast'

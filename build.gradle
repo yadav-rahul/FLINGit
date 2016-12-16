@@ -74,6 +74,7 @@ project(":android") {
 
         compile 'com.android.support:support-v4:25.0.1'
         compile project(':BaseGameUtils')
+        compile project(":tastytoast")
         compile fileTree(dir: '../libs', include: '*.jar')
     }
 }
