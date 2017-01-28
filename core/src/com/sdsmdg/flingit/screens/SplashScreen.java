@@ -58,9 +58,10 @@ public class SplashScreen implements Screen {
                 Gdx.app.postRunnable(new Runnable() {
                     @Override
                     public void run() {
-                        assets.loadGameScreenSprites();
                         assets.loadAllFonts();
+                        assets.loadGameScreenSprites();
                         assets.loadSounds();
+                        assets.loadTextureAtlas();
                         Gdx.app.log("Rahul", "Final Time : " + (System.currentTimeMillis() - time)/1000.0 );
                     }
                 });
@@ -77,7 +78,7 @@ public class SplashScreen implements Screen {
         spriteBatch.begin();
         groupLogo.draw(spriteBatch);
         spriteBatch.end();
-        if (System.currentTimeMillis() >= time + 2000) {
+        if (System.currentTimeMillis() >= time + 5000) {
             game.setScreen(new StartScreen(game, assets));
         }
     }

@@ -220,4 +220,8 @@ public class Block {
     public void setArrow(Sprite arrow) {
         this.arrow = arrow;
     }
+
+    public Rectangle getTopRectBlock() {
+        return topRectBlock;
+    }
 }

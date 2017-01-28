@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.sdsmdg.flingit.FLINGitGame;
 
@@ -19,16 +20,22 @@ public class Assets {
     private FLINGitGame game;
     private Texture groupLogoTexture, aboutUsTexture, leaderboardTexture, achievementTexture,
             soundOnTexture, soundOffTexture, silverCoinTexture, goldCoinTexture, arrowDownTexture,
-            arrowDownDarkTexture, blackHoleTexture;
+            arrowDownDarkTexture, blackHoleTexture, catDefaultTexture;
     private Sprite groupLogoSprite, aboutUsSprite, leaderboardSprite, achievementSprite,
             soundOnSprite, soundOffSprite, silverCoinSprite, goldCoinSprite, arrowDownSprite,
-            arrowDownDarkSprite, blackHoleSprite;
+            arrowDownDarkSprite, blackHoleSprite, catDefaultSprite;
     private Sound flingSound, dieSound, achievementSound, coinSound, pipeLandSound, pressSound;
-
+    private TextureAtlas textureAtlas, jumpAtlas, standAtlas;
     public Assets(FLINGitGame game) {
         this.game = game;
     }
 
+    public void loadTextureAtlas(){
+        textureAtlas = new TextureAtlas(Gdx.files.internal("drag.txt"));
+        jumpAtlas = new TextureAtlas(Gdx.files.internal("jump.txt"));
+        standAtlas= new TextureAtlas(Gdx.files.internal("stand.txt"));
+
+    }
     public void loadSounds() {
         flingSound = Gdx.audio.newSound(Gdx.files.internal("throw.ogg"));
         dieSound = Gdx.audio.newSound(Gdx.files.internal("dieSound.mp3"));
@@ -107,6 +114,10 @@ public class Assets {
         blackHoleTexture = new Texture(Gdx.files.internal("blackHole.png"));
         blackHoleTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         blackHoleSprite = new Sprite(blackHoleTexture);
+
+        catDefaultTexture = new Texture(Gdx.files.internal("cat_default.png"));
+        catDefaultTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        catDefaultSprite = new Sprite(catDefaultTexture);
     }
 
     public void loadAllFonts() {
@@ -149,6 +160,7 @@ public class Assets {
         arrowDownTexture.dispose();
         arrowDownDarkTexture.dispose();
         blackHoleTexture.dispose();
+        catDefaultTexture.dispose();
 
         //disposing fonts
         bitmapSmallFont.dispose();
@@ -161,6 +173,10 @@ public class Assets {
         pipeLandSound.dispose();
         dieSound.dispose();
         pressSound.dispose();
+
+        textureAtlas.dispose();
+        jumpAtlas.dispose();
+        standAtlas.dispose();
     }
 
     public BitmapFont getBitmapTitleFont() {
@@ -233,5 +249,21 @@ public class Assets {
 
     public Sprite getBlackHoleSprite() {
         return blackHoleSprite;
+    }
+
+    public Sprite getCatDefaultSprite() {
+        return catDefaultSprite;
+    }
+
+    public TextureAtlas getTextureAtlas() {
+        return textureAtlas;
+    }
+
+    public TextureAtlas getJumpAtlas() {
+        return jumpAtlas;
+    }
+
+    public TextureAtlas getStandAtlas() {
+        return standAtlas;
     }
 }

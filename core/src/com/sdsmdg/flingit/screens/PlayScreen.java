@@ -56,7 +56,6 @@ public class PlayScreen implements Screen {
         score = new Score(this, game);
 
         spriteBatch = new SpriteBatch();
-
         renderer = new ShapeRenderer();
         renderer.setAutoShapeType(true);
         this.game = game;
@@ -126,8 +125,10 @@ public class PlayScreen implements Screen {
         body.update(delta);
         tempBlockNumber = 0;
 
+
         spriteBatch.setProjectionMatrix(guiCam.combined);
-        if (isGameOver){
+
+        if (isGameOver) {
             getGameOverBar().render(renderer, spriteBatch, score.getHighScore());
         }
 
@@ -135,13 +136,13 @@ public class PlayScreen implements Screen {
         for (Block block : blocks) {
             block.render(spriteBatch, game, block, renderer, score.getScore());
         }
-        if (body.getLine().isShow()){
+        if (body.getLine().isShow()) {
             body.getLine().render(renderer);
         }
-        renderer.begin();
-        body.render(renderer);
+        spriteBatch.begin();
+        body.render(spriteBatch);
 
-        renderer.end();
+        spriteBatch.end();
         for (Block block : blocks) {
             if (gameCam.position.x - (gameCam.viewportWidth / 2) > block.getParamsBlock().x + block.getParamsBlock().y) {
                 Vector3 newBlockParams = game.dimensions.getNewBlockParams(tempBlockNumber);
@@ -149,7 +150,7 @@ public class PlayScreen implements Screen {
             }
 
             if (block.collide(block, body, body.getRectBody(), score)) {
-
+                //body.getPosition(). = block.getTopRectBlock().getY() + block.getTopRectBlock().getHeight();
             }
             tempBlockNumber++;
         }
@@ -174,8 +175,8 @@ public class PlayScreen implements Screen {
         if (coin.isRenderCoin()) {
             coin.render(this, body, spriteBatch);
         }
-        if (blackHole.isRenderBlackHole()){
-            blackHole.render(this,body,spriteBatch);
+        if (blackHole.isRenderBlackHole()) {
+            blackHole.render(this, body, spriteBatch);
         }
         spriteBatch.end();
     }
@@ -237,7 +238,7 @@ public class PlayScreen implements Screen {
         glyphLayout.setText(font, scoreToText);
         float layoutWidth = glyphLayout.width;
         float layoutHeight = glyphLayout.height;
-        font.draw(spriteBatch, scoreToText, game.dimensions.getScreenWidth() / 50 ,
+        font.draw(spriteBatch, scoreToText, game.dimensions.getScreenWidth() / 50,
                 game.dimensions.getScreenHeight() - (float) 0.5 * layoutHeight);
 
 //        font = game.assets.getBitmapMediumFont();

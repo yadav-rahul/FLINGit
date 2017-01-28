@@ -1,0 +1,462 @@
+jump-0.png
+size: 980, 698
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+jump
+  rotate: false
+  xy: 494, 344
+  size: 451, 353
+  orig: 500, 500
+  offset: 0, 58
+  index: 4
+jump
+  rotate: false
+  xy: 492, 1
+  size: 487, 341
+  orig: 500, 500
+  offset: 7, 71
+  index: 46
+jump
+  rotate: false
+  xy: 1, 1
+  size: 489, 339
+  orig: 500, 500
+  offset: 6, 71
+  index: 47
+jump
+  rotate: false
+  xy: 1, 344
+  size: 491, 341
+  orig: 500, 500
+  offset: 5, 71
+  index: 48
+jump
+  rotate: false
+  xy: 1, 344
+  size: 491, 341
+  orig: 500, 500
+  offset: 5, 71
+  index: 49
+jump
+  rotate: false
+  xy: 1, 344
+  size: 491, 341
+  orig: 500, 500
+  offset: 5, 71
+  index: 50
+jump
+  rotate: false
+  xy: 1, 344
+  size: 491, 341
+  orig: 500, 500
+  offset: 5, 71
+  index: 51
+jump
+  rotate: false
+  xy: 1, 344
+  size: 491, 341
+  orig: 500, 500
+  offset: 5, 71
+  index: 52
+jump
+  rotate: false
+  xy: 1, 344
+  size: 491, 341
+  orig: 500, 500
+  offset: 5, 71
+  index: 53
+jump
+  rotate: false
+  xy: 1, 344
+  size: 491, 341
+  orig: 500, 500
+  offset: 5, 71
+  index: 54
+
+jump-1.png
+size: 962, 703
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+jump
+  rotate: false
+  xy: 487, 1
+  size: 451, 353
+  orig: 500, 500
+  offset: 0, 59
+  index: 5
+jump
+  rotate: false
+  xy: 484, 356
+  size: 477, 346
+  orig: 500, 500
+  offset: 12, 74
+  index: 43
+jump
+  rotate: false
+  xy: 1, 346
+  size: 481, 346
+  orig: 500, 500
+  offset: 10, 72
+  index: 44
+jump
+  rotate: false
+  xy: 1, 1
+  size: 484, 343
+  orig: 500, 500
+  offset: 9, 72
+  index: 45
+
+jump-2.png
+size: 942, 704
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+jump
+  rotate: false
+  xy: 477, 1
+  size: 452, 352
+  orig: 500, 500
+  offset: 0, 61
+  index: 6
+jump
+  rotate: false
+  xy: 473, 355
+  size: 468, 348
+  orig: 500, 500
+  offset: 15, 77
+  index: 40
+jump
+  rotate: false
+  xy: 1, 350
+  size: 470, 348
+  orig: 500, 500
+  offset: 15, 76
+  index: 41
+jump
+  rotate: false
+  xy: 1, 1
+  size: 474, 347
+  orig: 500, 500
+  offset: 13, 75
+  index: 42
+
+jump-3.png
+size: 938, 703
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+jump
+  rotate: false
+  xy: 470, 350
+  size: 450, 352
+  orig: 500, 500
+  offset: 0, 58
+  index: 3
+jump
+  rotate: false
+  xy: 1, 1
+  size: 467, 347
+  orig: 500, 500
+  offset: 10, 76
+  index: 33
+jump
+  rotate: false
+  xy: 470, 1
+  size: 467, 347
+  orig: 500, 500
+  offset: 12, 76
+  index: 35
+jump
+  rotate: false
+  xy: 1, 350
+  size: 467, 348
+  orig: 500, 500
+  offset: 15, 77
+  index: 39
+
+jump-4.png
+size: 938, 702
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+jump
+  rotate: false
+  xy: 470, 350
+  size: 452, 351
+  orig: 500, 500
+  offset: 0, 63
+  index: 7
+jump
+  rotate: false
+  xy: 1, 1
+  size: 467, 347
+  orig: 500, 500
+  offset: 13, 77
+  index: 36
+jump
+  rotate: false
+  xy: 470, 1
+  size: 467, 347
+  orig: 500, 500
+  offset: 13, 77
+  index: 37
+jump
+  rotate: false
+  xy: 1, 350
+  size: 467, 347
+  orig: 500, 500
+  offset: 14, 77
+  index: 38
+
+jump-5.png
+size: 935, 701
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+jump
+  rotate: false
+  xy: 469, 350
+  size: 448, 350
+  orig: 500, 500
+  offset: 1, 59
+  index: 2
+jump
+  rotate: false
+  xy: 469, 1
+  size: 465, 347
+  orig: 500, 500
+  offset: 6, 74
+  index: 27
+jump
+  rotate: false
+  xy: 1, 1
+  size: 466, 347
+  orig: 500, 500
+  offset: 8, 75
+  index: 30
+jump
+  rotate: false
+  xy: 1, 350
+  size: 466, 347
+  orig: 500, 500
+  offset: 11, 76
+  index: 34
+
+jump-6.png
+size: 936, 699
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+jump
+  rotate: false
+  xy: 469, 349
+  size: 453, 349
+  orig: 500, 500
+  offset: 0, 66
+  index: 8
+jump
+  rotate: false
+  xy: 1, 1
+  size: 466, 346
+  orig: 500, 500
+  offset: 6, 75
+  index: 28
+jump
+  rotate: false
+  xy: 469, 1
+  size: 466, 346
+  orig: 500, 500
+  offset: 7, 75
+  index: 29
+jump
+  rotate: false
+  xy: 1, 349
+  size: 466, 346
+  orig: 500, 500
+  offset: 9, 76
+  index: 31
+
+jump-7.png
+size: 934, 697
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+jump
+  rotate: false
+  xy: 469, 1
+  size: 461, 347
+  orig: 500, 500
+  offset: 0, 71
+  index: 17
+jump
+  rotate: false
+  xy: 1, 349
+  size: 465, 346
+  orig: 500, 500
+  offset: 0, 73
+  index: 21
+jump
+  rotate: false
+  xy: 468, 350
+  size: 465, 346
+  orig: 500, 500
+  offset: 1, 73
+  index: 22
+jump
+  rotate: false
+  xy: 1, 1
+  size: 466, 346
+  orig: 500, 500
+  offset: 10, 76
+  index: 32
+
+jump-8.png
+size: 934, 697
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+jump
+  rotate: false
+  xy: 468, 349
+  size: 458, 347
+  orig: 500, 500
+  offset: 0, 70
+  index: 14
+jump
+  rotate: false
+  xy: 1, 1
+  size: 465, 346
+  orig: 500, 500
+  offset: 2, 73
+  index: 23
+jump
+  rotate: false
+  xy: 468, 1
+  size: 465, 346
+  orig: 500, 500
+  offset: 3, 74
+  index: 24
+jump
+  rotate: false
+  xy: 1, 349
+  size: 465, 346
+  orig: 500, 500
+  offset: 4, 74
+  index: 25
+
+jump-9.png
+size: 931, 697
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+jump
+  rotate: false
+  xy: 468, 1
+  size: 456, 347
+  orig: 500, 500
+  offset: 0, 69
+  index: 11
+jump
+  rotate: false
+  xy: 467, 350
+  size: 463, 346
+  orig: 500, 500
+  offset: 0, 72
+  index: 19
+jump
+  rotate: false
+  xy: 1, 349
+  size: 464, 346
+  orig: 500, 500
+  offset: 0, 72
+  index: 20
+jump
+  rotate: false
+  xy: 1, 1
+  size: 465, 346
+  orig: 500, 500
+  offset: 5, 74
+  index: 26
+
+jump-10.png
+size: 923, 697
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+jump
+  rotate: false
+  xy: 465, 1
+  size: 455, 347
+  orig: 500, 500
+  offset: 0, 69
+  index: 10
+jump
+  rotate: false
+  xy: 463, 350
+  size: 459, 346
+  orig: 500, 500
+  offset: 0, 71
+  index: 15
+jump
+  rotate: false
+  xy: 1, 349
+  size: 460, 346
+  orig: 500, 500
+  offset: 0, 71
+  index: 16
+jump
+  rotate: false
+  xy: 1, 1
+  size: 462, 346
+  orig: 500, 500
+  offset: 0, 72
+  index: 18
+
+jump-11.png
+size: 914, 698
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+jump
+  rotate: false
+  xy: 460, 1
+  size: 446, 347
+  orig: 500, 500
+  offset: 3, 61
+  index: 1
+jump
+  rotate: false
+  xy: 459, 350
+  size: 454, 347
+  orig: 500, 500
+  offset: 0, 68
+  index: 9
+jump
+  rotate: false
+  xy: 1, 349
+  size: 456, 346
+  orig: 500, 500
+  offset: 0, 70
+  index: 12
+jump
+  rotate: false
+  xy: 1, 1
+  size: 457, 346
+  orig: 500, 500
+  offset: 0, 70
+  index: 13
+
+jump-12.png
+size: 445, 348
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+jump
+  rotate: false
+  xy: 1, 1
+  size: 443, 346
+  orig: 500, 500
+  offset: 5, 61
+  index: 0

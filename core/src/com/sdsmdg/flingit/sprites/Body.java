@@ -4,9 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
+import com.sdsmdg.flingit.Anim.Anim;
 import com.sdsmdg.flingit.FLINGitGame;
 import com.sdsmdg.flingit.constants.Constants;
 import com.sdsmdg.flingit.controls.Score;
@@ -42,8 +45,13 @@ public class Body extends InputAdapter {
     private Line line;
     //Will be used to grow or shrink radius of ball dynamically
     private float radiusMultiplier;
-    private ShapeRenderer renderer;
+    private SpriteBatch spriteBatch;
     private GameOverBar gameOverBar;
+    private boolean isDraggedAnimation = false;
+    private Sprite defaultCatSprite;
+    private float elapsedTime2 = 0f;
+    ;
+    private float elapsedTime = 0f;
 
     public Body(FLINGitGame flinGitGame, PlayScreen playScreen, GameOverBar gameOverBar,
                 Score score, OrthographicCamera camera, int x, int y) {
@@ -56,9 +64,11 @@ public class Body extends InputAdapter {
         velocity = new Vector3(0, 0, 0);
         acc = new Vector3(0, ((float) -game.dimensions.getScreenWidth()) / 100, 0);
         init();
-        rectBody = new Rectangle(x - baseRadius + baseRadius / 7, y - baseRadius,
-                2 * baseRadius - 2 * baseRadius / 7, 2 * baseRadius);
+        rectBody = new Rectangle(x - baseRadius , y - baseRadius,
+                2 * baseRadius, 2 * baseRadius);
         line = new Line(this, game.dimensions.getScreenWidth() / 70);
+        defaultCatSprite = game.assets.getCatDefaultSprite();
+        defaultCatSprite.setSize(2 * baseRadius * radiusMultiplier, 2 * baseRadius * radiusMultiplier);
     }
 
     public void init() {
@@ -76,7 +86,7 @@ public class Body extends InputAdapter {
 
             //Change this method to set when radius starts changing because then dimensions of rect will
             //also change
-            rectBody.setPosition(position.x - baseRadius+ baseRadius / 7, position.y - baseRadius);
+            rectBody.setPosition(position.x - baseRadius + baseRadius / 7, position.y - baseRadius);
         }
 
 //        Gdx.app.log(TAG, "Position X : " + position.x + " || Position Y : " + position.y +
@@ -92,7 +102,7 @@ public class Body extends InputAdapter {
     }
 
     private void collideWithWalls(float radius, float viewportWidth, float viewportHeight) {
-        if (position.x < camera.position.x - (camera.viewportWidth )) {
+        if (position.x < camera.position.x - (camera.viewportWidth)) {
             gameOver();
         } else if (position.x > camera.position.x + (camera.viewportWidth / 2) + baseRadius) {
             gameOver();
@@ -110,12 +120,18 @@ public class Body extends InputAdapter {
         isUpdate = false;
     }
 
-    public void render(ShapeRenderer renderer) {
-        this.renderer = renderer;
+    public void render(SpriteBatch spriteBatch) {
+        this.spriteBatch = spriteBatch;
         if (!playScreen.isGameOver()) {
-            renderer.set(ShapeRenderer.ShapeType.Filled);
-            renderer.setColor(bodyColor);
-            renderer.circle(position.x, position.y, baseRadius * radiusMultiplier);
+            defaultCatSprite.setPosition(position.x - (defaultCatSprite.getWidth() / 2),
+                    position.y - (defaultCatSprite.getHeight() / 2));
+            //defaultCatSprite.draw(spriteBatch);
+
+            if (isInAir) {
+                showAnimation(new Anim().getJumpAnimation(game), false);
+            }else{
+                showAnimation(new Anim().getStandAnimation(game), true);
+            }
         }
     }
 
@@ -130,13 +146,14 @@ public class Body extends InputAdapter {
             gameOverBar.touchDown(screenX, screenY, pointer, button);
         }
         Vector3 worldClick = camera.unproject(new Vector3(screenX, screenY, 0));
-        if (worldClick.dst(position) < baseRadius * radiusMultiplier) {
+        if (worldClick.dst(position) < 2 * baseRadius * radiusMultiplier) {
             flicking = true;
             flickStart = worldClick;
 
             //Fade in the color of body
             bodyColor = Constants.COLOR_SECONDARY_BAR_BLUE;
         }
+
 
         return true;
     }
@@ -146,14 +163,16 @@ public class Body extends InputAdapter {
 
         flickDragged = camera.unproject(new Vector3(screenX, screenY, 0));
         if (flickStart != null && flicking) {
-            line.setShow(true);
+            line.setShow(false);
+
             flickDraggedVector = new Vector3(flickDragged.x - flickStart.x, flickDragged.y - flickStart.y, 0);
             flickDraggedVector.x = (float) (flickDraggedVector.x * 0.3);
             flickDraggedVector.y = (float) (flickDraggedVector.y * 0.35);
 
             line.setDraggedVector(flickDraggedVector);
+            setDraggedAnimation(true);
             //Change radius factor according to the length of the dragged Vector
-            radiusFactor = 1.0f / (20 + flickDraggedVector.len() / 10);
+//            radiusFactor = 1.0f / (20 + flickDraggedVector.len() / 10);
             init();
 
             if (flickDraggedVector.x < 0) {
@@ -166,6 +185,7 @@ public class Body extends InputAdapter {
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        elapsedTime = 0;
         if (flicking) {
             if (StartScreen.isSound) {
                 game.assets.getFlingSound().play();
@@ -173,6 +193,7 @@ public class Body extends InputAdapter {
             isInAir = true;
             //Remove the line
             line.setShow(false);
+            setDraggedAnimation(false);
             //Fade out the color of body
             bodyColor = Constants.COLOR_PRIMARY_BAR_BLUE;
             flicking = false;
@@ -190,6 +211,16 @@ public class Body extends InputAdapter {
         playScreen.setAttachCamera(false, 0);
 
         return true;
+    }
+
+    private void showAnimation(Animation draggedAnimation, boolean flag) {
+        elapsedTime += Gdx.graphics.getDeltaTime();
+        if (true) {
+            //Show dragged animation
+            //Gdx.app.log("Rahul", "Dragged : " + flickDragged);
+            spriteBatch.draw(draggedAnimation.getKeyFrame(elapsedTime, flag), position.x - (1 * defaultCatSprite.getWidth()),
+                    position.y - (55 * defaultCatSprite.getHeight() / 100), 0, 0, 500, 500, 0.4f, 0.4f, 0);
+        }
     }
 
     public Vector3 getPosition() {
@@ -238,5 +269,13 @@ public class Body extends InputAdapter {
 
     public void setRadiusFactor(float radiusFactor) {
         this.radiusFactor = radiusFactor;
+    }
+
+    public boolean isDraggedAnimation() {
+        return isDraggedAnimation;
+    }
+
+    public void setDraggedAnimation(boolean draggedAnimation) {
+        isDraggedAnimation = draggedAnimation;
     }
 }

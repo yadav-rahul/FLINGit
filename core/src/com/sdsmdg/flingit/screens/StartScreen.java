@@ -22,6 +22,7 @@ import com.sdsmdg.flingit.sprites.Bar;
 
 public class StartScreen extends InputAdapter implements Screen {
 
+    public static boolean isSound;
     private FLINGitGame game;
     private OrthographicCamera camera;
     private SpriteBatch spriteBatch;
@@ -30,7 +31,6 @@ public class StartScreen extends InputAdapter implements Screen {
     private int width, height;
     private Bar bar;
     private GlyphLayout glyphLayout;
-    public static boolean isSound;
     private Sprite aboutUs, leaderboard, achievement, soundOn, soundOff, sound;
 
     public StartScreen(FLINGitGame game, Assets assets) {
@@ -104,6 +104,7 @@ public class StartScreen extends InputAdapter implements Screen {
     }
 
     private void renderText(String text, BitmapFont font, float x, float y) {
+        assert font != null;
         font.setColor(Color.WHITE);
         glyphLayout.setText(font, text);
         float layoutWidth = glyphLayout.width;
