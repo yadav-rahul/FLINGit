@@ -6,7 +6,6 @@ Android game like no other.
 Strategy is simple. You have to pull the ball and then just _FLING_ it. Don't let the ball fall and take silver and gold coins to increase score.Also avoid blackholes as long as you can!
 
 ## Download
-Grab FLINGit from google play store:
 [![Get it on Google Play](https://play.google.com/intl/en_us/badges/images/badge_new.png)](https://play.google.com/store/apps/details?id=com.sdsmdg.flingit)
 
 
